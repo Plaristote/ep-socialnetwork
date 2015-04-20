@@ -18,8 +18,7 @@ GET    /pictures/:id           controllers.Pictures.show(id: Long)
 
 POST   /messages               controllers.Messages.create()
 PUT    /messages/:id           controllers.Messages.update(id: Long)
-GET    /messages/sent          controllers.Messages.index_sent()
-GET    /messages               controllers.Messages.index_received()
+GET    /messages               controllers.Messages.index()
 GET    /messages/:id           controllers.Messages.show(id: Long)
 
 #POST   /posts                  controllers.Posts.create()
