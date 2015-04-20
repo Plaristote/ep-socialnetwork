@@ -1,0 +1,44 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+POST   /session                controllers.Session.create()
+DELETE /session                controllers.Session.destroy()
+
+POST   /users                  controllers.Users.create()
+PUT    /users                  controllers.Users.update()
+GET    /users/:id              controllers.Users.show(id: Long)
+GET    /all_users/:page        controllers.Users.index(page: Integer)
+
+POST   /pictures               controllers.Pictures.create()
+PUT    /pictures/:id           controllers.Pictures.update(id: Long)
+GET    /pictures/user/:user_id controllers.Pictures.indexForUser(user_id: Long)
+GET    /pictures               controllers.Pictures.index()
+GET    /pictures/:id           controllers.Pictures.show(id: Long)
+
+POST   /messages               controllers.Messages.create()
+PUT    /messages/:id           controllers.Messages.update(id: Long)
+GET    /messages/sent          controllers.Messages.index_sent()
+GET    /messages               controllers.Messages.index_received()
+GET    /messages/:id           controllers.Messages.show(id: Long)
+
+#POST   /posts                  controllers.Posts.create()
+#PUT    /posts/:id              controllers.Posts.update(id: Long)
+#GET    /posts                  controllers.Posts.index()
+#GET    /posts/user/:id         controllers.Posts.indexForUser(id: Long)
+#GET    /posts/:id              controllers.Posts.show(id: Long)
+
+#POST   /comments/post/:post_id controllers.Comments.create(post_id: Long)
+#PUT    /comments/:id           controllers.Comments.update(id: Long)
+#GET    /comments/post/:post_id controllers.Comments.index(post_id: Long)
+
+#POST   /likes/post/:post_id    controllers.Likes.create(post_id: Long)
+#DELETE /likes/post/:post_id    controllers.Likes.destroy(post_id: Long)
+
+#POST   /friends                controllers.Friends.add_friend()
+#GET    /friends                controllers.Friends.index()
+#GET    /friends/user/:user_id  controllers.Friends.index_for_user(user_id: Long)
+#DELETE /friends/user/:user_id  controllers.Friends.destroy_friend(user_id: Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file           controllers.Assets.at(path="/public", file)
