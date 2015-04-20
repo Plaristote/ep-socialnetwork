@@ -1,10 +1,5 @@
 #!/bin/bash
-source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-activator_pid=`ps -ef | grep activator | grep -v grep | awk '{ print $2 }'`
-
-if [[ -z "$activator_pid" ]] ; then
-  client_result "Application is already stopped"
-else
-  kill -KILL $activator_pid
-fi
+kill $(cat $OPENSHIFT_REPO_DIR/misc/pid.pid)
+rm $OPENSHIFT_REPO_DIR/misc/pid.pid
+exit 0
