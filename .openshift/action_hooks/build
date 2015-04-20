@@ -1,1 +1,8 @@
 #!/bin/bash
+
+build_name=socialnetwork-1.0-SNAPSHOT
+
+cd $OPENSHIFT_REPO_DIR/build
+unzip $build_name.zip
+chmod +x $build_name/bin/socialnetwork
+mv $build_name socialnetwork
