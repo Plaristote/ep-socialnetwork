@@ -34,10 +34,10 @@ GET    /messages/:id           controllers.Messages.show(id: Long)
 #POST   /likes/post/:post_id    controllers.Likes.create(post_id: Long)
 #DELETE /likes/post/:post_id    controllers.Likes.destroy(post_id: Long)
 
-#POST   /friends                controllers.Friends.add_friend()
-#GET    /friends                controllers.Friends.index()
-#GET    /friends/user/:user_id  controllers.Friends.index_for_user(user_id: Long)
-#DELETE /friends/user/:user_id  controllers.Friends.destroy_friend(user_id: Long)
+POST   /friends                controllers.Friends.add_friend()
+GET    /friends                controllers.Friends.index()
+GET    /friends/user/:user_id  controllers.Friends.index_for_user(user_id: Long)
+DELETE /friends/user/:user_id  controllers.Friends.remove_friend(user_id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file           controllers.Assets.at(path="/public", file)

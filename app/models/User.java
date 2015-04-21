@@ -8,7 +8,6 @@ import play.db.ebean.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.security.MessageDigest;
 import java.util.Date;
 
