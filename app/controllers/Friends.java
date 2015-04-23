@@ -11,7 +11,7 @@ import java.util.List;
 public class Friends extends Application {
     @Security.Authenticated(Private.class)
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result add_friend() {
+    public static Result addFriend() {
       ObjectNode result     = Json.newObject();
       JsonNode   json       = request().body().asJson();
       Long       friendId   = json.findValue("friend").asLong();
@@ -28,10 +28,10 @@ public class Friends extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-        return index_of_user(getCurrentUserId());
+        return indexForUser(getCurrentUserId());
     }
 
-    public static Result index_of_user(Long user_id) {
+    public static Result indexForUser(Long user_id) {
         ObjectNode       result         = Json.newObject();
         ArrayNode        result_friends = result.putArray("friends");
         List<Friendship> friendships    = Friendship.find.where().ieq("user_id", getCurrentUserId().toString()).findList();
@@ -42,7 +42,7 @@ public class Friends extends Application {
     }
 
     @Security.Authenticated(Private.class)
-    public static Result remove_friend(Long friendId) {
+    public static Result removeFriend(Long friendId) {
         ObjectNode result  = Json.newObject();
 
         Friendship.removeFriendship(getCurrentUserId(), friendId);
