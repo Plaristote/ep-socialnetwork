@@ -17,7 +17,7 @@ public class User {
       if (user.birthday != null)
         result.put("birthday",   user.birthday.toString());
       if (user.hasPicture())
-        result.put("picture",  user.getPicture().uri);
+        result.put("picture",  user.getAvatarUrl());
       result.put("phone",      user.phone);
       result.put("location",   user.location);
       result.put("about",      user.about);
@@ -34,7 +34,7 @@ public class User {
         result_user.put("email",      user.email);
         result_user.put("first_name", user.first_name);
         result_user.put("last_name",  user.last_name);
-        result_user.put("picture_id", user.picture_id);
+        result_user.put("picture",    user.getAvatarUrl());
         result_users.add(result_user);
       }
       return result;

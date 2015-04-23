@@ -59,6 +59,16 @@ public class User extends Model {
     return preloadedPicture;
   }
 
+  private String gravatarUrl() {
+    return "http://www.gravatar.com/avatar/" + assets.MD5Util.md5Hex(email.toLowerCase().trim());
+  }
+
+  public String getAvatarUrl() {
+    if (hasPicture())
+      return getPicture().uri;
+    return gravatarUrl();
+  }
+
   // JSON
   public User updateFromJson(JsonNode json) {
     if (json.hasNonNull("email"))
