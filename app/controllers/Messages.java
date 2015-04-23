@@ -22,8 +22,7 @@ public class Messages extends Application {
       message.at      = new java.util.Date();
       message.read    = false;
       message.save();
-      result.put("id", message.id);
-      return ok(result);
+      return ok(views.Message.render(message));
     }
 
     @Security.Authenticated(Private.class)
@@ -47,17 +46,9 @@ public class Messages extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-      ObjectNode    result       = Json.newObject();
-      ArrayNode     messageArray = result.putArray("messages");
-      //List<Message> messages     = Message.find.where().or(
-      //            com.avaje.ebean.Expr.eq("from_id", getCurrentUserId()),
-      //            com.avaje.ebean.Expr.eq("to_id", getCurrentUserId())
-      //         ).findList();
       List<Message> messages = Message.find.where().ieq("to_id", getCurrentUserId().toString()).findList();
 
-      for (Message message : messages)
-        messageArray.add(renderMessage(message));
-      return ok(result);
+      return ok(views.Message.render(messages));
     }
 
     @Security.Authenticated(Private.class)
@@ -66,17 +57,6 @@ public class Messages extends Application {
 
       if (message.from_id != getCurrentUserId() && message.to_id != getCurrentUserId())
         return forbidden();
-      return ok(renderMessage(message));
-    }
-
-    private static ObjectNode renderMessage(Message message) {
-        ObjectNode result = Json.newObject();
-
-        result.put("id",      message.id);
-        result.put("from_id", message.from_id);
-        result.put("to_id",   message.to_id);
-        result.put("message", message.message);
-        result.put("at",      message.at.toString());
-        return result;
+      return ok(views.Message.render(message));
     }
 }

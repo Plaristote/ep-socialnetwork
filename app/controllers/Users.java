@@ -39,39 +39,17 @@ public class Users extends Application {
 
     public static Result show(Long id) {
         User       user   = User.find.byId(id);
-        ObjectNode result = Json.newObject();
 
-        result.put("email", user.email);
-        result.put("first_name", user.first_name);
-        result.put("last_name",  user.last_name);
-        if (user.signup_at != null)
-          result.put("signup_at",  user.signup_at.toString());
-        if (user.birthday != null)
-          result.put("birthday",   user.birthday.toString());
-        if (user.hasPicture())
-          result.put("picture",  user.getPicture().uri);
-        result.put("phone",      user.phone);
-        result.put("location",   user.location);
-        result.put("about",      user.about);
-        return ok(result);
+        return ok(views.User.render(user));
     }
 
-    public static Result index(Integer page) {
-      PagingList<User> users = User.find.where().findPagingList(30);
-      ObjectNode result = Json.newObject();
-      ArrayNode result_users = result.putArray("users");
+    public static Result index() {
+      PagingList<User> users        = User.find.where().findPagingList(getItemsPerPage(30));
+      ObjectNode       result       = views.User.render(users.getPage(getQueryPage()).getList());
 
-      result.put("page", page);
-      result.put("page_count", users.getTotalPageCount());
-      for (User user : users.getPage(page).getList()) {
-        ObjectNode result_user = Json.newObject();
-
-        result_user.put("email",      user.email);
-        result_user.put("first_name", user.first_name);
-        result_user.put("last_name",  user.last_name);
-        result_user.put("picture_id", user.picture_id);
-        result_users.add(result_user);
-      }
+      result.put("page", getQueryPage());
+      if (mustDisplayTotalResources())
+        result.put("page_count", users.getTotalPageCount());
       return ok(result);
     }
 }
