@@ -12,7 +12,8 @@ nohup bin/socialnetwork \
   -Duser.home=$OPENSHIFT_TMP_DIR/fakehome \
   -Dhttp.address=$OPENSHIFT_DIY_IP \
   -Dhttp.port=$OPENSHIFT_DIY_PORT \
-# -Dconfig.file=$OPENSHIFT_REPO_DIR/conf/production.conf \
   -Dpidfile.path=$OPENSHIFT_REPO_DIR/misc/pid.pid \
   > /tmp/play-log 2> /tmp/play-log &
+
+# -Dconfig.file=$OPENSHIFT_REPO_DIR/conf/production.conf \
 
