@@ -7,7 +7,7 @@ DELETE /session                controllers.Session.destroy()
 
 POST   /users                  controllers.Users.create()
 PUT    /users                  controllers.Users.update()
-GET    /users/                 controllers.Users.index()
+GET    /users                  controllers.Users.index()
 GET    /users/:id              controllers.Users.show(id: Long)
 DELETE /users                  controllers.Users.destroy()
 
