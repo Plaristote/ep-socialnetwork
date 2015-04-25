@@ -9,7 +9,7 @@ POST   /users                  controllers.Users.create()
 PUT    /users                  controllers.Users.update()
 GET    /users/                 controllers.Users.index()
 GET    /users/:id              controllers.Users.show(id: Long)
-DELETE /users                  controllers.Users.delete()
+DELETE /users                  controllers.Users.destroy()
 
 POST   /pictures               controllers.Pictures.create()
 PUT    /pictures/:id           controllers.Pictures.update(id: Long)
