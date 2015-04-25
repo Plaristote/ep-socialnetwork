@@ -52,4 +52,11 @@ public class Users extends Application {
         result.put("page_count", users.getTotalPageCount());
       return ok(result);
     }
+
+    @Security.Authenticated(Private.class)
+    public static Result destroy() {
+      getCurrentUser().delete();
+      controllers.Session.destroy();
+      return ok();
+    }
 }
