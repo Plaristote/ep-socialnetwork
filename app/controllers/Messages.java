@@ -46,7 +46,7 @@ public class Messages extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-      List<Message> messages = Message.find.where().ieq("to_id", getCurrentUserId().toString()).findList();
+      List<Message> messages = Message.find.where().eq("to_id", getCurrentUserId()).findList();
 
       return ok(views.Message.render(messages));
     }

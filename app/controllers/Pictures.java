@@ -43,7 +43,7 @@ public class Pictures extends Application {
     public static Result indexForUser(Long user_id) {
       ObjectNode    result   = Json.newObject();
       List<Picture> pictures = Picture.find.where()
-                                           .ieq("user_id", user_id.toString()).findList();
+                                           .eq("user_id", user_id).findList();
       ArrayNode     resultPictures = result.putArray("pictures");
 
       for (Picture picture : pictures)

@@ -14,8 +14,8 @@ public class Session extends Application {
       String   username = json.findValue("email").asText();
       String   password = User.encryptPassword(json.findValue("password").asText());
       User     user     = User.find.where()
-                                     .ieq("email", username)
-                                     .ieq("password", password).findUnique();
+                                     .eq("email", username)
+                                     .eq("password", password).findUnique();
 
       if (user == null)
         return unauthorized();

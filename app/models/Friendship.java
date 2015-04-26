@@ -32,7 +32,7 @@ public class Friendship extends Model {
 
   public static void removeFriendship(Long user_id, Long friend_id) {
     Friendship.find.where().
-            ieq("user_id", user_id.toString()).
-            ieq("friend_id", friend_id.toString()).findUnique().delete();
+            eq("user_id", user_id).
+            eq("friend_id", friend_id).findUnique().delete();
   }
 }

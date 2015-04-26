@@ -16,8 +16,8 @@ public class Friends extends Application {
       JsonNode   json       = request().body().asJson();
       Long       friendId   = json.findValue("friend").asLong();
       Friendship friendship = Friendship.find.where()
-                                             .ieq("user_id",   getCurrentUserId().toString())
-                                             .ieq("friend_id", friendId.toString()).findUnique();
+                                             .eq("user_id",   getCurrentUserId())
+                                             .eq("friend_id", friendId).findUnique();
 
       if (friendship != null)
         return forbidden();
@@ -34,7 +34,7 @@ public class Friends extends Application {
     public static Result indexForUser(Long user_id) {
         ObjectNode       result         = Json.newObject();
         ArrayNode        result_friends = result.putArray("friends");
-        List<Friendship> friendships    = Friendship.find.where().ieq("user_id", getCurrentUserId().toString()).findList();
+        List<Friendship> friendships    = Friendship.find.where().eq("user_id", getCurrentUserId()).findList();
 
         for (Friendship friendship : friendships)
           result_friends.add(friendship.friend_id);
