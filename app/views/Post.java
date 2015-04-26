@@ -6,6 +6,13 @@ import java.util.List;
 import play.libs.Json;
 
 public class Post {
+    public static ObjectNode renderWithDetails(models.Post post) {
+      ObjectNode result = render(post);
+
+      result.put("likes", models.Like.getLikeCount(post.id));
+      return result;
+    }
+
     public static ObjectNode render(models.Post post) {
         ObjectNode result = Json.newObject();
 

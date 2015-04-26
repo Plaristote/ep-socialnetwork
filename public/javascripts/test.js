@@ -97,7 +97,7 @@ function show_messages(callback) {
     contentType: 'application/json',
     dataType: 'json',
     success: function (data) {
-      callback(data.messages);
+      callback(data);
     },
     error: function (data) {
       console.log('Error: failed to fetch messages');
@@ -166,6 +166,16 @@ function show_posts(user_data, callback) {
   });
 }
 
+function show_post(post_id, callback) {
+  $.ajax({
+    method: 'GET',
+    url: '/posts/' + post_id,
+    dataType: 'json',
+    success: callback,
+    error: function() { console.log('Error: couldnt get post'); }
+  });
+}
+
 function disable_post(post_id, callback) {
   $.ajax({
     method: 'PUT',
@@ -178,6 +188,19 @@ function disable_post(post_id, callback) {
       callback(data);
     },
     error: function() { console.log('Could not update post'); }
+  });
+}
+
+function like_post(trigger, post_id, callback) {
+  $.ajax({
+    url:    '/likes/post/' + post_id,
+    method: (trigger == 'on' ? 'POST' : 'DELETE'),
+    dataType: 'json',
+    success: function() {
+      console.log('Successfully added like');
+      callback();
+    },
+    error: function() { console.log('Error: could not ' + (trigger == 'on' ? 'add ' : 'remove') + 'like'); }
   });
 }
 
@@ -286,9 +309,11 @@ function test_socialnetwork_rest_api() {
         });
 
         add_friend(user_2, function() {
-          show_friends(function(friends) {
+          show_friends(function(data) {
+            if (data.friends.length != 1) { throw "expectation failed"; }
             delete_friend(user_2, function() {
-              show_friends(function(friends) {
+              show_friends(function(data) {
+                if (data.friends.length != 0) { throw "expectation failed"; }
                 test_socialnetwork.session.task_done();
               });
             });
@@ -301,7 +326,18 @@ function test_socialnetwork_rest_api() {
             disable_post(data.posts[0].id, function() {
               show_posts(user_2, function(data) {
                 console.log('Received posts after disable', data);
-                test_socialnetwork.session.task_done();
+
+                like_post('on', data.posts[0].id, function() {
+                  show_post(data.posts[0].id, function(data) {
+                    if (data.likes != 1) { throw "expectation failed"; }
+                    like_post('off', data.id, function() {
+                      show_post(data.id, function(data) {
+                        if (data.likes != 0) { throw "expectation failed"; }
+                        test_socialnetwork.session.task_done();
+                      });
+                    });
+                  });
+                });
               });
             });
           });
@@ -310,8 +346,10 @@ function test_socialnetwork_rest_api() {
         add_picture({ uri: '/assets/picture.jpg', description: 'la photo' }, function() {
           show_pictures(user_1, function(data) {
             console.log('Pictures before update', data);
+            if (data.pictures[0].uri != '/assets/picture.jpg') { throw "expectation failed"; }
             update_picture(data.pictures[0].id, { uri: '/assets/picture2.jpg' }, function() {
               show_pictures(user_1, function(data) {
+                if (data.pictures[0].uri != '/assets/picture2.jpg') { throw "expectation failed"; }
                 console.log('Pictures after update', data);
                 test_socialnetwork.session.task_done();
               });
@@ -326,7 +364,8 @@ function test_socialnetwork_rest_api() {
       connect_to_user(user_2, function() {
         test_socialnetwork.session.tasks_remaining = 1;
 
-        show_messages(function(messages) {
+        show_messages(function(data) {
+          if (data.messages.length != 1) { throw "expectation failed"; }
           test_socialnetwork.session.task_done();
         });
       });

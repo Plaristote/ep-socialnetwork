@@ -32,8 +32,8 @@ GET    /posts/:id              controllers.Posts.show(id: Long)
 #PUT    /comments/:id           controllers.Comments.update(id: Long)
 #GET    /comments/post/:post_id controllers.Comments.index(post_id: Long)
 
-#POST   /likes/post/:post_id    controllers.Likes.create(post_id: Long)
-#DELETE /likes/post/:post_id    controllers.Likes.destroy(post_id: Long)
+POST   /likes/post/:post_id    controllers.Likes.create(post_id: Long)
+DELETE /likes/post/:post_id    controllers.Likes.destroy(post_id: Long)
 
 POST   /friends                controllers.Friends.addFriend()
 GET    /friends                controllers.Friends.index()

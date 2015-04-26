@@ -65,19 +65,6 @@ public class Posts extends Application {
     public static Result show(Long postId) {
         Post post = Post.find.byId(postId);
 
-        return ok(views.Post.render(post));
-    }
-
-    private static ObjectNode renderPost(Post post) {
-        ObjectNode result = Json.newObject();
-
-        result.put("id",          post.id);
-        result.put("from",        post.from_id);
-        result.put("to",          post.to_id);
-        result.put("description", post.description);
-        result.put("url",         post.url);
-        result.put("enable",      post.enable);
-        result.put("highlight",   post.highlight);
-        return result;
+        return ok(views.Post.renderWithDetails(post));
     }
 }
