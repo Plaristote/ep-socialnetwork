@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints;
 import play.data.format.*;
@@ -15,6 +16,13 @@ import java.util.Date;
 @Table(name="messages")
 public class Message extends Model {
     public static Finder<Long,Message> find = new Finder<Long,Message>(Long.class, Message.class);
+
+    public static PagingList<Message> getPaginatedMessagesForUser(Long userId, int itemsPerPage) {
+        return find.where().or(
+                com.avaje.ebean.Expr.eq("from_id", userId),
+                com.avaje.ebean.Expr.eq("to_id",   userId)
+        ).findPagingList(itemsPerPage);
+    }
 
     @Id
     public Long    id;

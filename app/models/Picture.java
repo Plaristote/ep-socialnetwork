@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.JsonNode;
 import play.data.validation.Constraints;
 import play.data.format.*;
@@ -16,6 +17,10 @@ import java.util.Date;
 @Table(name="pictures")
 public class Picture extends Model {
   public static Finder<Long,Picture> find = new Finder<Long,Picture>(Long.class, Picture.class);
+
+  public static PagingList<Picture> getPaginatedPicturesForUser(Long userId, int itemsPerPage) {
+    return find.where().eq("user_id", userId).findPagingList(itemsPerPage);
+  }
 
   @Id
   public Long   id;

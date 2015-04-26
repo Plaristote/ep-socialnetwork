@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -46,9 +47,14 @@ public class Messages extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-      List<Message> messages = Message.find.where().eq("to_id", getCurrentUserId()).findList();
+      PagingList<Message> messages = Message.getPaginatedMessagesForUser(getCurrentUserId(),
+              getItemsPerPage(30));
+      ObjectNode result = views.Message.render(messages.getAsList());
 
-      return ok(views.Message.render(messages));
+      result.put("page", getQueryPage());
+      if (mustDisplayTotalResources())
+        result.put("page_count", messages.getTotalPageCount());
+      return ok(result);
     }
 
     @Security.Authenticated(Private.class)

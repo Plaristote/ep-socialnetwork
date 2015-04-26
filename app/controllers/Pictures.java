@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.PagingList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -41,13 +42,12 @@ public class Pictures extends Application {
     }
 
     public static Result indexForUser(Long user_id) {
-      ObjectNode    result   = Json.newObject();
-      List<Picture> pictures = Picture.find.where()
-                                           .eq("user_id", user_id).findList();
-      ArrayNode     resultPictures = result.putArray("pictures");
+      PagingList<Picture> pictures = Picture.getPaginatedPicturesForUser(user_id, getItemsPerPage(30));
+      ObjectNode result = views.Picture.render(pictures.getAsList());
 
-      for (Picture picture : pictures)
-        resultPictures.add(renderPicture(picture));
+      result.put("page", getQueryPage());
+      if (mustDisplayTotalResources())
+        result.put("page_count", pictures.getTotalPageCount());
       return ok(result);
     }
 
@@ -59,16 +59,6 @@ public class Pictures extends Application {
     public static Result show(Long id) {
         Picture picture = Picture.find.byId(id);
 
-        return ok(renderPicture(picture));
-    }
-
-    private static ObjectNode renderPicture(Picture picture) {
-        ObjectNode result = Json.newObject();
-
-        result.put("id",          picture.id);
-        result.put("user_id",     picture.user_id);
-        result.put("description", picture.description);
-        result.put("uri",         picture.uri);
-        return result;
+        return ok(views.Picture.render(picture));
     }
 }
