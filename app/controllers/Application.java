@@ -19,12 +19,13 @@ public class Application extends PaginateComponent {
 
   public static Result preflightCheck() {
     enableCors();
-    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE");
-    response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type");
     return ok();
   }
 
   protected static void enableCors() {
     response().setHeader("Access-Control-Allow-Origin", request().getHeader("Origin").toString());
+    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE");
+    response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type");
+    response().setHeader("Access-Control-Allow-Credentials", "true");
   }
 }
