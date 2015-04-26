@@ -59,7 +59,6 @@ public class Users extends Application {
     public static Result destroy() {
       enableCors();
       getCurrentUser().delete();
-      controllers.Session.destroy();
-      return ok();
+      return controllers.Session.destroy();
     }
 }
