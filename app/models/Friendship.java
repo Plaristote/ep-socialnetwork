@@ -3,9 +3,12 @@ package models;
 import play.db.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import play.data.validation.Constraints;
 
 @Entity
+@Table(name="friendships")
 public class Friendship extends Model {
   public static Finder<Long,Friendship> find = new Finder<Long,Friendship>(Long.class, Friendship.class);
 

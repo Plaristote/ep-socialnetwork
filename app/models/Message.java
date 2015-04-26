@@ -7,10 +7,12 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Date;
 
 @Entity
+@Table(name="messages")
 public class Message extends Model {
     public static Finder<Long,Message> find = new Finder<Long,Message>(Long.class, Message.class);
 
@@ -40,5 +42,4 @@ public class Message extends Model {
             this.read = json.findValue("read").asBoolean();
         return this;
     }
-
 }

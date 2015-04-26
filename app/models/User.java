@@ -8,10 +8,12 @@ import play.db.ebean.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.security.MessageDigest;
 import java.util.Date;
 
 @Entity
+@Table(name="users")
 public class User extends Model {
   public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class);
 

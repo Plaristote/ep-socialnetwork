@@ -7,11 +7,13 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.security.MessageDigest;
 import java.util.Date;
 
 @Entity
+@Table(name="pictures")
 public class Picture extends Model {
   public static Finder<Long,Picture> find = new Finder<Long,Picture>(Long.class, Picture.class);
 
