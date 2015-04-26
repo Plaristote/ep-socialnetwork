@@ -25,6 +25,6 @@ public class Application extends PaginateComponent {
   }
 
   protected static void enableCors() {
-    response().setHeader("Access-Control-Allow-Origin", request().host());
+    response().setHeader("Access-Control-Allow-Origin", request().getHeader("Origin").toString());
   }
 }
