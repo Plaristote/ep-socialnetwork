@@ -55,9 +55,10 @@ public class Posts extends Application {
 
     public static Result indexForUser(Long userId) {
         PagingList<Post> posts  = Post.getPaginatedPostsForUser(userId,
-                                                                getItemsPerPage(30));
+                getItemsPerPage(30));
         ObjectNode       result = views.Post.render(posts.getPage(getQueryPage()).getList());
 
+        enableCors();
         result.put("page", getQueryPage());
         if (mustDisplayTotalResources())
           result.put("page_count", posts.getTotalPageCount());
@@ -67,6 +68,7 @@ public class Posts extends Application {
     public static Result show(Long postId) {
         Post post = Post.find.byId(postId);
 
+        enableCors();
         return ok(views.Post.renderWithDetails(post));
     }
 }

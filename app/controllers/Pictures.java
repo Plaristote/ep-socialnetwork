@@ -47,6 +47,7 @@ public class Pictures extends Application {
       PagingList<Picture> pictures = Picture.getPaginatedPicturesForUser(user_id, getItemsPerPage(30));
       ObjectNode result = views.Picture.render(pictures.getAsList());
 
+      enableCors();
       result.put("page", getQueryPage());
       if (mustDisplayTotalResources())
         result.put("page_count", pictures.getTotalPageCount());
@@ -61,6 +62,7 @@ public class Pictures extends Application {
     public static Result show(Long id) {
         Picture picture = Picture.find.byId(id);
 
+        enableCors();
         return ok(views.Picture.render(picture));
     }
 }

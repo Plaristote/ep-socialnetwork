@@ -53,6 +53,7 @@ public class Messages extends Application {
               getItemsPerPage(30));
       ObjectNode result = views.Message.render(messages.getAsList());
 
+      enableCors();
       result.put("page", getQueryPage());
       if (mustDisplayTotalResources())
         result.put("page_count", messages.getTotalPageCount());
@@ -63,6 +64,7 @@ public class Messages extends Application {
     public static Result show(Long id) {
       Message message = Message.find.byId(id);
 
+      enableCors();
       if (message.from_id != getCurrentUserId() && message.to_id != getCurrentUserId())
         return forbidden();
       return ok(views.Message.render(message));

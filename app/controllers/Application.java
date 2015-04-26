@@ -24,7 +24,7 @@ public class Application extends PaginateComponent {
 
   protected static void enableCors() {
     response().setHeader("Access-Control-Allow-Origin", request().getHeader("Origin").toString());
-    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE");
+    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET");
     response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type");
     response().setHeader("Access-Control-Allow-Credentials", "true");
   }

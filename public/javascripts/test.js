@@ -121,6 +121,7 @@ function show_friends(callback) {
   $.ajax({
     method: 'GET',
     url: host + '/friends',
+    dataType: 'json',
     success: callback,
     error: function() { console.log('Error: failed to fetch friend list'); }
   });
@@ -157,6 +158,7 @@ function show_posts(user_data, callback) {
     method: 'GET',
     url: host + '/posts/user/' + user_data.id,
     success: callback,
+    dataType: 'json',
     error: function() { console.log('Error: couldnt get post index'); }
   });
 }
@@ -165,6 +167,7 @@ function show_post(post_id, callback) {
   $.ajax({
     method: 'GET',
     url: host + '/posts/' + post_id,
+    dataType: 'json',
     success: callback,
     error: function() { console.log('Error: couldnt get post'); }
   });
@@ -227,6 +230,7 @@ function update_picture(picture_id, data, callback) {
 function show_pictures(user_data, callback) {
   $.ajax({
     method: 'GET',
+    dataType: 'json',
     url: host + '/pictures/user/' + user_data.id,
     success: function(data) {
       callback(data);
