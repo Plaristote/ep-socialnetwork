@@ -181,6 +181,48 @@ function disable_post(post_id, callback) {
   });
 }
 
+function add_picture(data, callback) {
+  $.ajax({
+    method: 'POST',
+    url: '/pictures',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      console.log('Successfully added picture');
+      callback(data);
+    },
+    error: function() { console.log('Could not add picture');}
+  });
+}
+
+function update_picture(picture_id, data, callback) {
+  $.ajax({
+    method: 'PUT',
+    url: '/pictures/' + picture_id,
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(data) {
+      console.log('Successfully updated picture');
+      callback(data);
+    },
+    error: function() { console.log('Could not update picture');}
+  });
+}
+
+function show_pictures(user_data, callback) {
+  $.ajax({
+    method: 'GET',
+    url: '/pictures/user/' + user_data.id,
+    dataType: 'json',
+    success: function(data) {
+      callback(data);
+    },
+    error: function() { console.log('Could not fetch user pictures');}
+  });
+}
+
 var test_socialnetwork = {
   session: {
     waiting_for_session: [],
@@ -237,7 +279,7 @@ function test_socialnetwork_rest_api() {
   test_socialnetwork.setup_accounts(function() {
     test_socialnetwork.session.on_next_session(function() {
       connect_to_user(user_1, function() {
-        test_socialnetwork.session.tasks_remaining = 3;
+        test_socialnetwork.session.tasks_remaining = 4;
 
         send_message(user_2, "Mon message", function() {
           test_socialnetwork.session.task_done();
@@ -264,6 +306,19 @@ function test_socialnetwork_rest_api() {
             });
           });
         });
+
+        add_picture({ uri: '/assets/picture.jpg', description: 'la photo' }, function() {
+          show_pictures(user_1, function(data) {
+            console.log('Pictures before update', data);
+            update_picture(data.pictures[0].id, { uri: '/assets/picture2.jpg' }, function() {
+              show_pictures(user_1, function(data) {
+                console.log('Pictures after update', data);
+                test_socialnetwork.session.task_done();
+              });
+            });
+          });
+        });
+
       });
     });
 
@@ -276,8 +331,6 @@ function test_socialnetwork_rest_api() {
         });
       });
     });
-
-
 
     test_socialnetwork.session.on_next_session(function() {
       test_socialnetwork.remove_accounts();
