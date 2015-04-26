@@ -26,6 +26,7 @@ public class Pictures extends Application {
     public static Result create() {
       Picture picture = new Picture();
 
+      enableCors();
       picture.user_id = getCurrentUserId();
       return updatePicture(picture);
     }
@@ -33,12 +34,13 @@ public class Pictures extends Application {
     @Security.Authenticated(Private.class)
     @BodyParser.Of(BodyParser.Json.class)
     public static Result update(Long id) {
-        JsonNode json    = request().body().asJson();
-        Picture  picture = Picture.find.byId(id);
+      JsonNode json    = request().body().asJson();
+      Picture  picture = Picture.find.byId(id);
 
-        if (picture.user_id != getCurrentUserId())
-            return forbidden();
-        return updatePicture(picture);
+      enableCors();
+      if (picture.user_id != getCurrentUserId())
+        return forbidden();
+      return updatePicture(picture);
     }
 
     public static Result indexForUser(Long user_id) {

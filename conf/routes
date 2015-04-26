@@ -43,3 +43,18 @@ DELETE /friends/user/:user_id  controllers.Friends.removeFriend(user_id: Long)
 # Map static resources from the /public folder to the /assets URL path
 GET     /                       controllers.Assets.at(path="/public", file="index.html")
 GET     /assets/*file           controllers.Assets.at(path="/public", file)
+
+# Support for CORS requests
+OPTIONS /users                 controllers.Application.preflightCheck()
+OPTIONS /pictures              controllers.Application.preflightCheck()
+OPTIONS /pictures/:id          controllers.Application.preflightCheckWithParam(id: String)
+OPTIONS /messages              controllers.Application.preflightCheck()
+OPTIONS /messages/:id          controllers.Application.preflightCheckWithParam(id: String)
+OPTIONS /posts                 controllers.Application.preflightCheck()
+OPTIONS /posts/:id             controllers.Application.preflightCheckWithParam(id: String)
+OPTIONS /likes/post/:id        controllers.Application.preflightCheckWithParam(id: String)
+OPTIONS /friends               controllers.Application.preflightCheck()
+OPTIONS /friends/user/:id      controllers.Application.preflightCheckWithParam(id: String)
+#OPTIONS /comments/post/:id     controllers.Application.preflightCheckWithParam(id: String)
+#OPTIONS /comments/:id          controllers.Application.preflightCheckWithParam(id: String)
+

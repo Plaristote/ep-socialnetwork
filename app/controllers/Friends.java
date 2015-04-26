@@ -19,6 +19,7 @@ public class Friends extends Application {
                                              .eq("user_id",   getCurrentUserId())
                                              .eq("friend_id", friendId).findUnique();
 
+      enableCors();
       if (friendship != null)
         return forbidden();
       Friendship.createFriendship(getCurrentUserId(), friendId);
@@ -45,6 +46,7 @@ public class Friends extends Application {
     public static Result removeFriend(Long friendId) {
         ObjectNode result  = Json.newObject();
 
+        enableCors();
         Friendship.removeFriendship(getCurrentUserId(), friendId);
         result.put("message", "friend removed");
         return ok(result);

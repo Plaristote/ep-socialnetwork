@@ -17,6 +17,7 @@ public class Session extends Application {
                                      .eq("email", username)
                                      .eq("password", password).findUnique();
 
+      enableCors();
       if (user == null)
         return unauthorized();
       session().put("user_id", user.id.toString());
@@ -28,6 +29,7 @@ public class Session extends Application {
     public static Result destroy() {
       ObjectNode result = Json.newObject();
 
+      enableCors();
       ctx().session().remove("user_id");
       result.put("disconnected", true);
       return ok(result);

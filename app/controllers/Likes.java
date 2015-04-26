@@ -13,6 +13,7 @@ public class Likes extends Application {
     public static Result create(Long postId) {
       ObjectNode result = Json.newObject();
 
+      enableCors();
       Like.addLike(getCurrentUserId(), postId);
       result.put("message", "like added");
       return (ok(result));
@@ -22,6 +23,7 @@ public class Likes extends Application {
     public static Result destroy(Long postId) {
       ObjectNode result = Json.newObject();
 
+      enableCors();
       Like.removeLike(getCurrentUserId(), postId);
       result.put("message", "like deleted");
       return (ok(result));

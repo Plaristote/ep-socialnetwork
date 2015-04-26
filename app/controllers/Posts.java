@@ -16,6 +16,7 @@ public class Posts extends Application {
         JsonNode   json   = request().body().asJson();
         Post       post   = new Post();
 
+        enableCors();
         post.from_id      = getCurrentUserId();
         post.to_id        = json.findValue("to").asLong();
         if (json.has("picture_id"))
@@ -36,6 +37,7 @@ public class Posts extends Application {
         JsonNode   json    = request().body().asJson();
         Post       post    = Post.find.byId(postId);
 
+        enableCors();
         if (post.from_id != getCurrentUserId())
           return forbidden();
         if (json.has("enable"))

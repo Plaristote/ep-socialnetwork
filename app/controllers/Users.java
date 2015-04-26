@@ -25,6 +25,7 @@ public class Users extends Application {
     public static Result create() {
         User     user = new User();
 
+        enableCors();
         user.signup_at = new java.util.Date();
         return updateUser(user);
     }
@@ -34,6 +35,7 @@ public class Users extends Application {
     public static Result update() {
         User     user = getCurrentUser();
 
+        enableCors();
         return updateUser(user);
     }
 
@@ -55,6 +57,7 @@ public class Users extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result destroy() {
+      enableCors();
       getCurrentUser().delete();
       controllers.Session.destroy();
       return ok();

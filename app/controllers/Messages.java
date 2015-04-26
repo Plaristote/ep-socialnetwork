@@ -17,6 +17,7 @@ public class Messages extends Application {
       Message    message = new Message();
       JsonNode   json    = request().body().asJson();
 
+      enableCors();
       message.from_id = getCurrentUserId();
       message.to_id   = json.findValue("to").asLong();
       message.message = json.findValue("message").asText();
@@ -33,6 +34,7 @@ public class Messages extends Application {
       Message    message = Message.find.byId(id);
       JsonNode   json    = request().body().asJson();
 
+      enableCors();
       if (message.to_id != getCurrentUserId())
         return forbidden();
       if (json.has("read"))
