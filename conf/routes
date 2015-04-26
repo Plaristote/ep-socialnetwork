@@ -41,4 +41,5 @@ GET    /friends/user/:user_id  controllers.Friends.indexForUser(user_id: Long)
 DELETE /friends/user/:user_id  controllers.Friends.removeFriend(user_id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
+GET     /                       controllers.Assets.at(path="/public", file="index.html")
 GET     /assets/*file           controllers.Assets.at(path="/public", file)
