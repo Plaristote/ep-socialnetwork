@@ -42,6 +42,7 @@ public class Posts extends Application {
           post.enable = json.findValue("enable").asBoolean();
         if (json.has("highlight"))
           post.highlight = json.findValue("highlight").asBoolean();
+        post.save();
         return ok(views.Post.render(post));
     }
 

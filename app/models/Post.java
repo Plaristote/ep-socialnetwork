@@ -52,7 +52,7 @@ public class Post extends Model {
     }
 
     public boolean hasPicture() {
-      return picture_id != 0;
+      return picture_id != null && picture_id != 0;
     }
 
     private Picture preloadedPicture = null;
