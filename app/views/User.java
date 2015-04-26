@@ -9,6 +9,7 @@ public class User {
     public static ObjectNode render(models.User user) {
       ObjectNode result = Json.newObject();
 
+      result.put("id", user.id);
       result.put("email", user.email);
       result.put("first_name", user.first_name);
       result.put("last_name",  user.last_name);
@@ -31,6 +32,7 @@ public class User {
       for (models.User user : users) {
         ObjectNode result_user = Json.newObject();
 
+        result_user.put("id",         user.id);
         result_user.put("email",      user.email);
         result_user.put("first_name", user.first_name);
         result_user.put("last_name",  user.last_name);
