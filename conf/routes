@@ -45,6 +45,7 @@ GET     /                       controllers.Assets.at(path="/public", file="inde
 GET     /assets/*file           controllers.Assets.at(path="/public", file)
 
 # Support for CORS requests
+OPTIONS /session               controllers.Application.preflightCheck()
 OPTIONS /users                 controllers.Application.preflightCheck()
 OPTIONS /pictures              controllers.Application.preflightCheck()
 OPTIONS /pictures/:id          controllers.Application.preflightCheckWithParam(id: String)
