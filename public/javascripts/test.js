@@ -16,10 +16,12 @@ var user_2 = {
   about: 'Toon'
 };
 
+var host = 'http://socialnetwork-sosexy.rhcloud.com';
+
 function remove_account(callback) {
   $.ajax({
     method: 'DELETE',
-    url: '/users',
+    url: host + '/users',
     success: function() { console.log('Account successfully removed'); if (typeof callback != 'undefined') {callback();}},
     error: function() { console.log('Error: failed to remove account'); }
   });
@@ -28,10 +30,9 @@ function remove_account(callback) {
 function setup_account(user_data, callback) {
   $.ajax({
     method: 'POST',
-    url: '/users',
+    url: host + '/users',
     data: JSON.stringify(user_data),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       user_data.id = data.id;
       callback(data);
@@ -45,10 +46,9 @@ function setup_account(user_data, callback) {
 function connect_to_user(user_data, callback) {
   $.ajax({
     method: 'POST',
-    url: '/session',
+    url: host + '/session',
     data: JSON.stringify({ email: user_data.email, password: user_data.password }),
     contentType: 'application/json',
-    dataType: 'json',
     success: function (data) {
       console.log('Connected to user', user_data);
       callback();
@@ -62,7 +62,7 @@ function connect_to_user(user_data, callback) {
 function disconnect(callback) {
   $.ajax({
     method: 'DELETE',
-    url: '/session',
+    url: host + '/session',
     success: function (data) {
       console.log('Successfully disconnected');
       callback();
@@ -76,10 +76,9 @@ function disconnect(callback) {
 function send_message(user_data, message, callback) {
   $.ajax({
     method: 'POST',
-    url: '/messages',
+    url: host + '/messages',
     data: JSON.stringify({ to: user_data.id, message: message }),
     contentType: 'application/json',
-    dataType: 'json',
     success: function (data) {
       console.log("Message sent", user_data, message);
       callback(data);
@@ -93,9 +92,8 @@ function send_message(user_data, message, callback) {
 function show_messages(callback) {
   $.ajax({
     method: 'GET',
-    url: '/messages',
+    url: host + '/messages',
     contentType: 'application/json',
-    dataType: 'json',
     success: function (data) {
       callback(data);
     },
@@ -108,10 +106,9 @@ function show_messages(callback) {
 function add_friend(user_data, callback) {
   $.ajax({
     method: 'POST',
-    url: '/friends',
+    url: host + '/friends',
     data: JSON.stringify({ friend: user_data.id }),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       console.log('Friend added', user_data);
       callback(data);
@@ -123,7 +120,7 @@ function add_friend(user_data, callback) {
 function show_friends(callback) {
   $.ajax({
     method: 'GET',
-    url: '/friends',
+    url: host + '/friends',
     success: callback,
     error: function() { console.log('Error: failed to fetch friend list'); }
   });
@@ -132,7 +129,7 @@ function show_friends(callback) {
 function delete_friend(user_data, callback) {
   $.ajax({
     method: 'DELETE',
-    url: '/friends/user/' + user_data.id,
+    url: host + '/friends/user/' + user_data.id,
     success: function() {
       console.log('Friend deleted', user_data);
       callback();
@@ -144,10 +141,9 @@ function delete_friend(user_data, callback) {
 function add_post(user_data, options, callback) {
   $.ajax({
     method: 'POST',
-    url: '/posts',
+    url: host + '/posts',
     data: JSON.stringify({ to: user_data.id, url: options.url, description: options.description }),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       console.log('Successfully add post', options);
       callback(data);
@@ -159,8 +155,7 @@ function add_post(user_data, options, callback) {
 function show_posts(user_data, callback) {
   $.ajax({
     method: 'GET',
-    url: '/posts/user/' + user_data.id,
-    dataType: 'json',
+    url: host + '/posts/user/' + user_data.id,
     success: callback,
     error: function() { console.log('Error: couldnt get post index'); }
   });
@@ -169,8 +164,7 @@ function show_posts(user_data, callback) {
 function show_post(post_id, callback) {
   $.ajax({
     method: 'GET',
-    url: '/posts/' + post_id,
-    dataType: 'json',
+    url: host + '/posts/' + post_id,
     success: callback,
     error: function() { console.log('Error: couldnt get post'); }
   });
@@ -179,10 +173,9 @@ function show_post(post_id, callback) {
 function disable_post(post_id, callback) {
   $.ajax({
     method: 'PUT',
-    url: '/posts/' + post_id,
+    url: host + '/posts/' + post_id,
     data: JSON.stringify({ enable: false }),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       console.log('Successfully disabled post');
       callback(data);
@@ -193,9 +186,8 @@ function disable_post(post_id, callback) {
 
 function like_post(trigger, post_id, callback) {
   $.ajax({
-    url:    '/likes/post/' + post_id,
+    url:    host + '/likes/post/' + post_id,
     method: (trigger == 'on' ? 'POST' : 'DELETE'),
-    dataType: 'json',
     success: function() {
       console.log('Successfully added like');
       callback();
@@ -207,10 +199,9 @@ function like_post(trigger, post_id, callback) {
 function add_picture(data, callback) {
   $.ajax({
     method: 'POST',
-    url: '/pictures',
+    url: host + '/pictures',
     data: JSON.stringify(data),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       console.log('Successfully added picture');
       callback(data);
@@ -222,10 +213,9 @@ function add_picture(data, callback) {
 function update_picture(picture_id, data, callback) {
   $.ajax({
     method: 'PUT',
-    url: '/pictures/' + picture_id,
+    url: host + '/pictures/' + picture_id,
     data: JSON.stringify(data),
     contentType: 'application/json',
-    dataType: 'json',
     success: function(data) {
       console.log('Successfully updated picture');
       callback(data);
@@ -237,8 +227,7 @@ function update_picture(picture_id, data, callback) {
 function show_pictures(user_data, callback) {
   $.ajax({
     method: 'GET',
-    url: '/pictures/user/' + user_data.id,
-    dataType: 'json',
+    url: host + '/pictures/user/' + user_data.id,
     success: function(data) {
       callback(data);
     },
@@ -299,6 +288,13 @@ var test_socialnetwork = {
 };
 
 function test_socialnetwork_rest_api() {
+  $.ajaxSetup({
+    dataType: 'json',
+    xhrFields: {
+      withCredentials: true
+    }
+  });
+
   test_socialnetwork.setup_accounts(function() {
     test_socialnetwork.session.on_next_session(function() {
       connect_to_user(user_1, function() {
