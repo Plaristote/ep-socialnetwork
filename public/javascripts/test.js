@@ -16,7 +16,8 @@ var user_2 = {
   about: 'Toon'
 };
 
-var host = 'http://socialnetwork-sosexy.rhcloud.com';
+//var host = 'http://socialnetwork-sosexy.rhcloud.com';
+var host = '';
 
 function remove_account(callback) {
   $.ajax({
@@ -292,12 +293,16 @@ var test_socialnetwork = {
 };
 
 function test_socialnetwork_rest_api() {
-  $.ajaxSetup({
-    dataType: 'json',
-    xhrFields: {
-      withCredentials: true
-    }
-  });
+  if (host != '') {
+    $.ajaxSetup({
+      dataType: 'json',
+      xhrFields: {
+        withCredentials: true
+      }
+    });
+  } else {
+    $.ajaxSetup({ dataType: 'json' });
+  }
 
   test_socialnetwork.setup_accounts(function() {
     test_socialnetwork.session.on_next_session(function() {
