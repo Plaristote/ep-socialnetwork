@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html lang="fr" ng-app="koreanMeetUpApp" id="top">
+
+<head>
+    <title>Korean meet up</title>
+    <link rel="icon" href="favicon.ico" />
+    <script src="calendarDemo.js"></script>
+</head>
+
+<body>
+    <div class="hero-unit" >
+        <p style="font-size: xx-large; margin-left: auto; margin-right: auto; width: 250px; margin-bottom: 30px;"> Sign in</p>
+    </div>
+    
+    <div class="container" style="margin-top: 15px" ng-controller="BlogCtrl">
+        <div >
+          <form novalidate class="css-form">
+
+            <label for="email">Nickname</label>
+            <input type="name" class="form-control" id="name" placeholder="Enter name" ng-model="user.name" required>
+            <br>
+            <label for="email">Password</label>
+            <input type="password" style="initial" class="name form-control" id="lastName" placeholder="Enter Password" ng-model="user.password" required>
+            <br><br>
+            <button type="submit" class="btn btn-success" ng-click="login(user)" >Sign in</button>
+          </form>
+        </div>
+    </div>
+</body>
+</html>

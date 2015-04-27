@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script>
+
+<html lang="fr" ng-app="calendarDemoApp" id="top">
+
+<head>
+    <title>AngularUI Calendar for AngularJS</title>
+    <link rel="icon" href="favicon.ico" />
+    <script src="calendarDemo.js"></script>
+</head>
+
+<body>
+    <div class="hero-unit" ng-controller="CalendarCtrl">
+        <p style="font-size: xx-large; margin-left: auto; margin-right: auto; width: auto; margin-bottom: 30px;"> {{ title }} </p>
+        <button type="submit" class="btn btn-primary" style="width: 100px" ng-click="edit()" >  Edit  </button>
+        <button type="submit" class="btn btn-danger" style="width: 100px" ng-click="delete()" >Delete</button>
+    </div>
+    <div style="margin-top: 15px" class="container" ng-controller="CalendarCtrl">
+        <p> 
+            <div class="gras">Start :</div> {{ start }}
+            <div class="gras">End :</div> {{ end }}
+        </p>
+      {{ id }}  
+        <div style="margin-top: 50px">
+            Description = {{ desc }} <br>
+        </div>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="calendarDemoApp" id="top">
+
+<head>
+    <title>AngularUI Calendar for AngularJS</title>
+    <link rel="icon" href="favicon.ico" />
+    <script src="../src/calendarDemo.js"></script>
+</head>
+<body data-spy="scroll">
+
+    <div role="main">
+        <div class="hero-unit" >
+        <p style="font-size: xx-large; margin-left: auto; margin-right: auto; width: 250px; margin-bottom: 30px;"> Korean Meet up </p>
+        </div>
+        
+        
+        
+        
+        
+        
+        <div class="container ">
+            <section id="directives-calendar" ng-controller="CalendarCtrl">
+                
+                <div class="well">
+                    <div class="row-fluid">
+                        <div class="span4">
+                           
+
+                            <div class="btn-group calTools">
+                                        
+                             
+                              <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                                Add Event
+                              </button>
+                            </div>
+
+                            <ul class="unstyled">
+                                <li ng-repeat="e in events">
+                                    <div class="alert alert-info">
+                                        <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
+                                        <b> <input ng-model="e.title"></b> 
+                                        {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="span8">
+
+                                  <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+                                    <h4>{{alertMessage}}</h4>
+                                  </div>
+                                  <div class="btn-toolbar">
+                                    <p class="pull-right lead">Calendar</p>
+                                    <div class="btn-group">
+                                        <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+                                        <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+                                        <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+                                    </div>
+                                  </div>
+                                <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+        
+    <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-17352735-3']);
+            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+    </script>
+    
+</body>
+</html>
