@@ -45,7 +45,7 @@ GET     /                       controllers.Assets.at(path="/public", file="inde
 GET     /assets/*file           controllers.Assets.at(path="/public", file)
 GET     /webApp/                controllers.Assets.at(path="/public/public/webApp", file="index.html")
 
-\public\client\webApp
+#\public\client\webApp
 
 # Support for CORS requests
 OPTIONS /session               controllers.Application.preflightCheck()
