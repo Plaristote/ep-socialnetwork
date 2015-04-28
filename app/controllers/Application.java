@@ -23,9 +23,15 @@ public class Application extends PaginateComponent {
   }
 
   protected static void enableCors() {
-    response().setHeader("Access-Control-Allow-Origin", request().getHeader("Origin").toString());
-    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET");
+    response().setHeader("Access-Control-Allow-Origin", allowedOrigins());
+    response().setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET, OPTIONS");
     response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type");
     response().setHeader("Access-Control-Allow-Credentials", "true");
+  }
+
+  private static String allowedOrigins() {
+    if (request().hasHeader("Origin"))
+      return request().getHeader("Origin").toString();
+    return ("*");
   }
 }
