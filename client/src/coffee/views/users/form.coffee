@@ -1,7 +1,7 @@
 class UserForm extends View
   is_editing_password: () ->
     @$("[name='password']").val().length > 0
-    
+
   validate_failure: (field_name, error) ->
     $error_message = $("<span class='validate-error'>#{error}</span>")
     @$("[name='#{field_name}']").parent().append $error_message
@@ -31,6 +31,16 @@ class UserForm extends View
   validate_password: () ->
     @validate_password_length() && @validate_password_confirmation()
 
+  validate_required_field: (field_name) ->
+    if @$("[name='#{field_name}']").val().length < 1
+      @validate_failure field_name, 'Required field'
+      false
+    else
+      true
+
+  validate_name: () ->
+    @validate_required_field('first_name') && @validate_required_field('last_name')
+
   validate: () ->
     @$(".validate-error").detach()
-    @validate_email() && @validate_password()
+    @validate_email() && @validate_name() && @validate_password()

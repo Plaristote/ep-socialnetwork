@@ -26,8 +26,8 @@ class UsersController extends Controller
     user = new User()
     user.set view.get_attributes()
     user.save {},
-      success: (data) => @on_user_created data.id
-      error:   (data) -> view.on_subscribe_failure data
+      success: (data)       => @on_user_created data.id
+      error:   (user, data) -> view.on_subscribe_failure data.responseJSON
 
   on_user_created: (user_id) ->
     @navigate "/users/#{user_id}", trigger: true

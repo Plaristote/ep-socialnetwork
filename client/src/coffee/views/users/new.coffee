@@ -14,8 +14,9 @@ class NewUserView extends UserForm
   subscribe: () ->
     @trigger 'subscribe', @ if @validate()
 
-  on_subscribe_failure: (errors) ->
-    alert 'subscribtion failed'
+  on_subscribe_failure: (data) ->
+    console.log data
+    alert data.error
 
   get_attributes: () ->
     attributes = {}

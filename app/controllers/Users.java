@@ -9,15 +9,24 @@ import models.User;
 import play.libs.Json;
 import play.mvc.*;
 
+import javax.persistence.PersistenceException;
+
 public class Users extends Application {
     private static Result updateUser(User user) {
         JsonNode   json   = request().body().asJson();
         ObjectNode result = Json.newObject();
 
-        if (json == null)
-            return badRequest("Expecting JSON data");
-        user.updateFromJson(json).save();
-        result.put("id", user.id);
+        if (json == null) {
+          result.put("error", "Excpecting JSON data");
+          return badRequest(result);
+        }
+        if (User.find.where().eq("email", json.get("email").asText()).findRowCount() > 0) {
+          result.put("error", "This email is already registered");
+          return badRequest(result);
+        } else {
+          user.updateFromJson(json).save();
+          result.put("id", user.id);
+        }
         return ok(result);
     }
 

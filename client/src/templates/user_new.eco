@@ -1,23 +1,23 @@
 <div id="form-new-user">
   <h1>Inscription</h1>
   <div class='input'>
-    <label for='new-user-email'>Email</label>
+    <label for='new-user-email'>Email (*)</label>
     <input id='new-user-email' type='text' name='email' placeholder='Email'/>
   </div>
   <div class='input'>
-    <label for='new-user-first-name'>First name</label>
+    <label for='new-user-first-name'>First name (*)</label>
     <input id='new-user-first-name' type='text' name='first_name' placeholder='First name'/>
   </div>
   <div class='input'>
-    <label for='new-user-last-name'>Last name</label>
+    <label for='new-user-last-name'>Last name (*)</label>
     <input id='new-user-last-name' type='text' name='last_name' placeholder='Last name'/>
   </div>
   <div class='input'>
-    <label for='new-user-password'>Password</label>
+    <label for='new-user-password'>Password (*)</label>
     <input id='new-user-password' type='password' name='password' placeholder='Password'/>
   </div>
   <div class='input'>
-    <label for='new-user-password-confirm'>Password confirmation</label>
+    <label for='new-user-password-confirm'>Password confirmation (*)</label>
     <input id='new-user-password-confirm' type='password' name='password_confirm' placeholder='Password confirmaion'/>
   </div>
   <div class='input'>

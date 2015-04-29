@@ -17048,15 +17048,15 @@ window.JST["user_edit"] = function (__obj) {
   }
   (function() {
     (function() {
-      __out.push('<div id="form-edit-user">\n  <h1>Modifier votre profil</h1>\n  <h2>General Informations</h2>\n  <div class=\'input\'>\n    <label for=\'new-user-email\'>Email</label>\n    <input id=\'new-user-email\' type=\'text\' name=\'email\' placeholder=\'Email\' value=\'');
+      __out.push('<div id="form-edit-user">\n  <h1>Modifier votre profil</h1>\n  <h2>General Informations</h2>\n  <div class=\'input\'>\n    <label for=\'new-user-email\'>Email (*)</label>\n    <input id=\'new-user-email\' type=\'text\' name=\'email\' placeholder=\'Email\' value=\'');
     
       __out.push(__sanitize(this.user.get('email')));
     
-      __out.push('\' />\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-first-name\'>First name</label>\n    <input id=\'new-user-first-name\' type=\'text\' name=\'first_name\' placeholder=\'First name\'  value=\'');
+      __out.push('\' />\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-first-name\'>First name (*)</label>\n    <input id=\'new-user-first-name\' type=\'text\' name=\'first_name\' placeholder=\'First name\'  value=\'');
     
       __out.push(__sanitize(this.user.get('first_name')));
     
-      __out.push('\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-last-name\'>Last name</label>\n    <input id=\'new-user-last-name\' type=\'text\' name=\'last_name\' placeholder=\'Last name\'  value=\'');
+      __out.push('\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-last-name\'>Last name (*)</label>\n    <input id=\'new-user-last-name\' type=\'text\' name=\'last_name\' placeholder=\'Last name\'  value=\'');
     
       __out.push(__sanitize(this.user.get('last_name')));
     
@@ -17241,7 +17241,7 @@ window.JST["user_new"] = function (__obj) {
   }
   (function() {
     (function() {
-      __out.push('<div id="form-new-user">\n  <h1>Inscription</h1>\n  <div class=\'input\'>\n    <label for=\'new-user-email\'>Email</label>\n    <input id=\'new-user-email\' type=\'text\' name=\'email\' placeholder=\'Email\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-first-name\'>First name</label>\n    <input id=\'new-user-first-name\' type=\'text\' name=\'first_name\' placeholder=\'First name\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-last-name\'>Last name</label>\n    <input id=\'new-user-last-name\' type=\'text\' name=\'last_name\' placeholder=\'Last name\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-password\'>Password</label>\n    <input id=\'new-user-password\' type=\'password\' name=\'password\' placeholder=\'Password\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-password-confirm\'>Password confirmation</label>\n    <input id=\'new-user-password-confirm\' type=\'password\' name=\'password_confirm\' placeholder=\'Password confirmaion\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-phone\'>Phone</label>\n    <input id=\'new-user-phone\' type=\'text\' name=\'phone\', placeholder=\'Phone number\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-location\'>Location</label>\n    <input id=\'new-user-location\' type=\'text\' name=\'location\' placeholder=\'Location\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-about\'>About</label>\n    <input id=\'new-user-about\' type=\'about\' name=\'about\' placeholder=\'About\'/>\n  </div>\n  <button id=\'subscribe\'>Subscribe</button>\n</div>');
+      __out.push('<div id="form-new-user">\n  <h1>Inscription</h1>\n  <div class=\'input\'>\n    <label for=\'new-user-email\'>Email (*)</label>\n    <input id=\'new-user-email\' type=\'text\' name=\'email\' placeholder=\'Email\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-first-name\'>First name (*)</label>\n    <input id=\'new-user-first-name\' type=\'text\' name=\'first_name\' placeholder=\'First name\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-last-name\'>Last name (*)</label>\n    <input id=\'new-user-last-name\' type=\'text\' name=\'last_name\' placeholder=\'Last name\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-password\'>Password (*)</label>\n    <input id=\'new-user-password\' type=\'password\' name=\'password\' placeholder=\'Password\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-password-confirm\'>Password confirmation (*)</label>\n    <input id=\'new-user-password-confirm\' type=\'password\' name=\'password_confirm\' placeholder=\'Password confirmaion\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-phone\'>Phone</label>\n    <input id=\'new-user-phone\' type=\'text\' name=\'phone\', placeholder=\'Phone number\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-location\'>Location</label>\n    <input id=\'new-user-location\' type=\'text\' name=\'location\' placeholder=\'Location\'/>\n  </div>\n  <div class=\'input\'>\n    <label for=\'new-user-about\'>About</label>\n    <input id=\'new-user-about\' type=\'about\' name=\'about\' placeholder=\'About\'/>\n  </div>\n  <button id=\'subscribe\'>Subscribe</button>\n</div>');
     
     }).call(this);
     
@@ -17808,9 +17808,22 @@ window.JST["user_show"] = function (__obj) {
       return this.validate_password_length() && this.validate_password_confirmation();
     };
 
+    UserForm.prototype.validate_required_field = function(field_name) {
+      if (this.$("[name='" + field_name + "']").val().length < 1) {
+        this.validate_failure(field_name, 'Required field');
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    UserForm.prototype.validate_name = function() {
+      return this.validate_required_field('first_name') && this.validate_required_field('last_name');
+    };
+
     UserForm.prototype.validate = function() {
       this.$(".validate-error").detach();
-      return this.validate_email() && this.validate_password();
+      return this.validate_email() && this.validate_name() && this.validate_password();
     };
 
     return UserForm;
@@ -18035,9 +18048,22 @@ window.JST["user_show"] = function (__obj) {
       return this.validate_password_length() && this.validate_password_confirmation();
     };
 
+    UserForm.prototype.validate_required_field = function(field_name) {
+      if (this.$("[name='" + field_name + "']").val().length < 1) {
+        this.validate_failure(field_name, 'Required field');
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    UserForm.prototype.validate_name = function() {
+      return this.validate_required_field('first_name') && this.validate_required_field('last_name');
+    };
+
     UserForm.prototype.validate = function() {
       this.$(".validate-error").detach();
-      return this.validate_email() && this.validate_password();
+      return this.validate_email() && this.validate_name() && this.validate_password();
     };
 
     return UserForm;
@@ -18072,8 +18098,9 @@ window.JST["user_show"] = function (__obj) {
       }
     };
 
-    NewUserView.prototype.on_subscribe_failure = function(errors) {
-      return alert('subscribtion failed');
+    NewUserView.prototype.on_subscribe_failure = function(data) {
+      console.log(data);
+      return alert(data.error);
     };
 
     NewUserView.prototype.get_attributes = function() {
@@ -18395,9 +18422,22 @@ window.JST["user_show"] = function (__obj) {
       return this.validate_password_length() && this.validate_password_confirmation();
     };
 
+    UserForm.prototype.validate_required_field = function(field_name) {
+      if (this.$("[name='" + field_name + "']").val().length < 1) {
+        this.validate_failure(field_name, 'Required field');
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    UserForm.prototype.validate_name = function() {
+      return this.validate_required_field('first_name') && this.validate_required_field('last_name');
+    };
+
     UserForm.prototype.validate = function() {
       this.$(".validate-error").detach();
-      return this.validate_email() && this.validate_password();
+      return this.validate_email() && this.validate_name() && this.validate_password();
     };
 
     return UserForm;
@@ -18517,8 +18557,8 @@ window.JST["user_show"] = function (__obj) {
             return _this.on_user_created(data.id);
           };
         })(this),
-        error: function(data) {
-          return view.on_subscribe_failure(data);
+        error: function(user, data) {
+          return view.on_subscribe_failure(data.responseJSON);
         }
       });
     };
