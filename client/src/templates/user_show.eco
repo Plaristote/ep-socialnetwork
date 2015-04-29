@@ -1,0 +1,22 @@
+<div id='show-user'>
+  <button id='edit-user'>
+    Modifier
+  </button>
+  <img class='avatar' src="/assets/images/avatar-placeholder.png" />
+  <div class='information' data-field='first_name'>
+    <span class='label'>First name:</span>
+    <span class='value'>Loading...</span>
+  </div>
+  <div class='information' data-field='last_name'>
+    <span class='label'>Last name:</span>
+    <span class='value'>Loading...</span>
+  </div>
+  <div class='information' data-field='location'>
+    <span class='label'>Location:</span>
+    <span class='value'>Loading..</span>
+  </div>
+  <div class='information' data-field='about'>
+    <span class='label'>About:</span>
+    <span class='value'>Loading...</span>
+  </div>
+</div>

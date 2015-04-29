@@ -1,0 +1,12 @@
+<div class="user-item" data-id="<%= @user.get 'id' %>">
+  <img src="<%= @user.get 'picture' %>" />
+  <span class="first-name">
+    <%= @user.get 'first_name' %>
+  </span>
+  <span class="last-name">
+    <%= @user.get 'last_name' %>
+  </span>
+  <div class='controls'>
+    <button class='show'>Show</button>
+  </div>
+</div>

@@ -17,8 +17,7 @@ public class User {
         result.put("signup_at",  user.signup_at.toString());
       if (user.birthday != null)
         result.put("birthday",   user.birthday.toString());
-      if (user.hasPicture())
-        result.put("picture",  user.getAvatarUrl());
+      result.put("picture",  user.getAvatarUrl());
       result.put("phone",      user.phone);
       result.put("location",   user.location);
       result.put("about",      user.about);

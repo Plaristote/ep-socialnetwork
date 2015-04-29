@@ -1,0 +1,11 @@
+<div id='connect-form'>
+  <input type='text' name='email' placeholder='Email' />
+  <input type='password' name='password' placeholder='Password' />
+  <button id='connect-button'>Connexion</button>
+  <button id='create-account'>Inscription</button>
+</div>
+
+<div id='userspace'>
+  Bienvenue, <span class='username'></span>
+  <button id='disconnect-button'>Deconnexion</button>
+</div>

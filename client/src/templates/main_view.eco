@@ -1,0 +1,10 @@
+<div id='header'>
+  <div data-view='session-view'>
+  </div>
+  <div class='title'>
+    <h2>Social Network</h2>
+  </div>
+</div>
+
+<div data-view='inner-view'>
+</div>

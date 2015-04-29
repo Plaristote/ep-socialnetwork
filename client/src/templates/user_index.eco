@@ -1,0 +1,6 @@
+<div id="user-index">
+  <h1>User index</h1>
+  <div class="user-list">
+  </div>
+  <button id="load-more">Load more</button>
+</div>
