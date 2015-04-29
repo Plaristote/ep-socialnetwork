@@ -35,7 +35,7 @@ public class Friends extends Application {
     public static Result indexForUser(Long user_id) {
         ObjectNode       result         = Json.newObject();
         ArrayNode        result_friends = result.putArray("friends");
-        List<Friendship> friendships    = Friendship.find.where().eq("user_id", getCurrentUserId()).findList();
+        List<Friendship> friendships    = Friendship.find.where().eq("user_id", user_id).findList();
 
         enableCors();
         for (Friendship friendship : friendships)

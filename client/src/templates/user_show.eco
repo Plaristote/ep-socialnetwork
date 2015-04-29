@@ -19,4 +19,10 @@
     <span class='label'>About:</span>
     <span class='value'>Loading...</span>
   </div>
+
+  <h2>Friends (<span class='friend-count'>0</span>)</h2>
+  <button id="add-as-friend">Add as friend</button>
+  <button id="delete-from-friends">Remove from friends</button>
+  <div class='friend-list'>
+  </div>
 </div>

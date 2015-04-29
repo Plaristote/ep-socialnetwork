@@ -27,6 +27,7 @@ class Application
     
   on_user_disconnected: (user_id) ->
     @current_user.set 'id', null
+    @current_user.set 'friends_ids', null
 
 $.ajaxSetup
   contentType: 'application/json'

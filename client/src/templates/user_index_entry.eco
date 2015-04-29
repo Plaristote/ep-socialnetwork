@@ -7,6 +7,8 @@
     <%= @user.get 'last_name' %>
   </span>
   <div class='controls'>
+    <button class='add-friend'>Add as friend</button>
+    <button class='del-friend'>Remove from friends</button>
     <button class='show'>Show</button>
   </div>
 </div>

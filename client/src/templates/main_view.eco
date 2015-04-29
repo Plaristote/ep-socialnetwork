@@ -2,7 +2,7 @@
   <div data-view='session-view'>
   </div>
   <div class='title'>
-    <h2>Social Network</h2>
+    <h2><a href="#/users">Social Network</a></h2>
   </div>
 </div>
 
