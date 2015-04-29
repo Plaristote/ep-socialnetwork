@@ -11,8 +11,10 @@ class Application
 
   initialize: () ->
     @users_controller = new UsersController
-        
+
     @current_user = new User()
+
+    @user_cache = new UserCache()
 
     @session   = new Session
     @session.on 'login',  @on_user_connected.bind(@)

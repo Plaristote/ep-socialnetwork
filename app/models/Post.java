@@ -21,7 +21,7 @@ public class Post extends Model {
         return find.where().or(
                 com.avaje.ebean.Expr.eq("from_id", userId),
                 com.avaje.ebean.Expr.eq("to_id",   userId)
-        ).findPagingList(itemsPerPage);
+        ).order("created_at DESC").findPagingList(itemsPerPage);
     }
 
     @Id

@@ -1,0 +1,23 @@
+#user-index {
+  .user-item {
+    padding: 5px;
+    &:nth-child(odd) {
+      background-color: lightgray;
+    }
+    img {
+      display: inline-block;
+      border-radius: 40px;
+      height: 40px;
+    }
+    .first-name, .last-name {
+      display: inline-block;
+      width: 200px
+    }
+    .controls {
+      float: right;
+    }
+  }
+  #load-more {
+    margin: 0 auto;
+  }
+}

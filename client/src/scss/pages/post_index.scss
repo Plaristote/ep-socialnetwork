@@ -1,0 +1,47 @@
+#show-posts {
+  float: left;
+  $width: $app-width / 2;
+  width: $width;
+  
+  #posts .list {
+    .post {
+      clear: both;
+      margin: 5px;
+
+      .avatar {
+        float: left;
+        margin-bottom: 15px;
+
+        a {
+          display:          block;
+          height:           60px;
+          width:            60px;
+          padding:          10px;
+          background-image: $default-avatar;
+          background-size:  cover;
+          text-decoration:  none;
+          text-align:       center;
+          span {
+            @include transition(opacity 0.2s ease-in-out);
+            background-color: rgba(255,255,255,0.5);
+            font-size:        10px;
+            color:            black;
+            opacity:          0;
+          }
+          &:hover {
+            span {
+              opacity:        1;
+            }
+          }
+        }
+      }
+      
+      .description {
+        padding:     10px;
+        margin:      10px;
+        margin-left: 70px;
+        border: 1px black solid;
+      }
+    }
+  }
+}

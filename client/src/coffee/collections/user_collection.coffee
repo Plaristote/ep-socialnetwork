@@ -1,11 +1,8 @@
-class UserCollection extends Backbone.PageableCollection
+class UserCollection extends Collection
   model: User
   url: "/users"
-  state:
-    firstPage: 0
-  queryParams:
-    currentPage: "Page"
-    pageSize:    "Limit"
-        
+  resourceName: 'users'
+
   parse: (response) ->
+    @state.lastPage = @state.currentPage if response.users.length == 0
     response.users

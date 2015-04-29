@@ -6,6 +6,7 @@ class UsersView extends View
     'click .user-item .show':       'show_user'
     'click .user-item .add-friend': 'add_as_friend'
     'click .user-item .del-friend': 'delete_from_friends'
+    'click #load-more':             'load_more'
 
   constructor: (collection) ->
     @collection = collection
@@ -19,6 +20,12 @@ class UsersView extends View
 
   contains_user: (user_id) ->
     @$(".user-item[data-id='#{user_id}']").length != 0
+
+  load_more: () ->
+    console.log @collection
+    @$('#load-more').fadeOut()
+    @collection.getNextPage().done =>
+      @$('#load-more').fadeIn() unless @collection.is_at_last_page()
 
   add_page: () ->
     for model in @collection.models

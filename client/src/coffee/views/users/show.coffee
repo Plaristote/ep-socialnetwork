@@ -1,3 +1,6 @@
+#= require posts
+#= require friendbox
+
 class UserView extends View
   template: JST['user_show']
   name: 'inner-view'
@@ -12,9 +15,13 @@ class UserView extends View
     @listenTo application.current_user, 'change', @on_current_user_change.bind(@)
     super null
 
+  initialize: () ->
+    @post_view = new PostView @
+
   render: () ->
     @$el.html @template user: @user
     @on_current_user_change()
+    @post_view.render()
     super
 
   on_change: () ->
@@ -61,11 +68,5 @@ class UserView extends View
     @$(".friend-list").empty()
     @$(".friend-count").text @user.get('friends_ids').length
     for friend_id in @user.get('friends_ids')
-      @$(".friend-list").append "<a href='#/users/#{friend_id}' data-friend='#{friend_id}'><span class='first-name'></span> <span class='last-name'></span></a>"
-      friend = new User id: friend_id
-      friend.fetch
-        success: (friend) =>
-          $friend_box = @$(".friend-list a[data-friend='#{friend.get 'id'}']")
-          $('.first-name', $friend_box).text friend.get 'first_name'
-          $('.last-name',  $friend_box).text friend.get 'last_name'
-          $friend_box.css 'background-image', "url(#{friend.get 'picture'})"
+      friend_box = new FriendBoxView @$('.friend-list'), friend_id
+      friend_box.render()

@@ -1,7 +1,12 @@
 class User extends Backbone.Model
   urlRoot: "/users"
 
+  initialize: () ->
+    @posts = new PostCollection()
+    @posts.set_user @
+
   fetch: () ->
+    application.user_cache.add @
     @fetch_friends()
     super
 
@@ -34,4 +39,4 @@ class User extends Backbone.Model
       method: 'GET'
       url:    "/friends/user/#{@get 'id'}"
       success: (data) => @set 'friends_ids', data.friends
-      error:   ()     -> console.log "Could not fetch friends for user", user
+      error:   ()     => console.log "Could not fetch friends for user", @

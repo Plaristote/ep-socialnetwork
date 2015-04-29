@@ -26,3 +26,6 @@
   <div class='friend-list'>
   </div>
 </div>
+
+<div id='show-posts' data-view='post-index'>
+</div>

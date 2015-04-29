@@ -45,6 +45,6 @@ class UsersController extends Controller
       dataType: 'json'
       success:  (data) => @on_user_updated view
       error:    (data) -> view.on_update_failure data
-      
+
   on_user_updated: (view) ->
     application.current_user.set view.get_attributes()

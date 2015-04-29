@@ -1,0 +1,25 @@
+<div id='add-post'>
+  <h2>Write on the wall</h2>
+  <div class='label'>
+    Link
+  </div>
+  <div class='value'>
+    <input type="text" name="url" placeholder="http://"/>
+  </div>
+
+  <div class='label'>
+    Message
+  </div>
+  <div class='value'>
+    <textarea name="description"></textarea>
+  </div>
+  
+  <button class='send'>Send</button>
+</div>
+
+<div id='posts'>
+  <h2>Wall</h2>
+  <div class='list'>
+  </div>
+  <button class='load-more'>Load more</button>
+</div>
