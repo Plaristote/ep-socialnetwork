@@ -34,4 +34,9 @@ public class Session extends Application {
       result.put("disconnected", true);
       return ok(result);
     }
+
+    @Security.Authenticated(Private.class)
+    public static Result get() {
+      return controllers.Users.show(getCurrentUserId());
+    }
 }

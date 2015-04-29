@@ -4,6 +4,7 @@
 
 POST   /session                controllers.Session.create()
 DELETE /session                controllers.Session.destroy()
+GET    /session                controllers.Session.get()
 
 POST   /users                  controllers.Users.create()
 PUT    /users                  controllers.Users.update()
