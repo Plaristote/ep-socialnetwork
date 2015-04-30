@@ -1,27 +1,31 @@
 package models;
 
 import play.db.ebean.Model;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import play.data.validation.Constraints;
+import java.util.UUID;
 
 @Entity
-@Table(name="friendships")
+@Table(name="friends")
 public class Friendship extends Model {
-  public static Finder<Long,Friendship> find = new Finder<Long,Friendship>(Long.class, Friendship.class);
-
-  @Id
-  public Long id;
+  public static Finder<UUID,Friendship> find = new Finder<UUID,Friendship>(UUID.class, Friendship.class);
 
   @Constraints.Required
-  public Long user_id;
+  @Column(columnDefinition="uuid",name="user_1")
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  public UUID user_id;
 
   @Constraints.Required
-  public Long friend_id;
+  @Column(columnDefinition="uuid",name="user_2")
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  public UUID friend_id;
 
-  public static Friendship createFriendship(Long user_id, Long friend_id) {
+  public static Friendship createFriendship(UUID user_id, UUID friend_id) {
     Friendship friendship = new Friendship();
 
     friendship.user_id   = user_id;
@@ -30,7 +34,7 @@ public class Friendship extends Model {
     return friendship;
   }
 
-  public static void removeFriendship(Long user_id, Long friend_id) {
+  public static void removeFriendship(UUID user_id, UUID friend_id) {
     Friendship.find.where().
             eq("user_id", user_id).
             eq("friend_id", friend_id).findUnique().delete();

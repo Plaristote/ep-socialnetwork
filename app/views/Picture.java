@@ -10,8 +10,8 @@ public class Picture {
     public static ObjectNode render(models.Picture picture) {
       ObjectNode result = Json.newObject();
 
-      result.put("id",          picture.id);
-      result.put("user_id",     picture.user_id);
+      result.put("id",          picture.id.toString());
+      result.put("user_id",     picture.user_id.toString());
       result.put("description", picture.description);
       result.put("uri",         picture.uri);
       return result;

@@ -21,7 +21,7 @@ public class Session extends Application {
       if (user == null)
         return unauthorized();
       session().put("user_id", user.id.toString());
-      result.put("id", user.id);
+      result.put("id", user.id.toString());
       return ok(result);
     }
 
@@ -37,6 +37,6 @@ public class Session extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result get() {
-      return controllers.Users.show(getCurrentUserId());
+      return controllers.Users.show(getCurrentUserId().toString());
     }
 }

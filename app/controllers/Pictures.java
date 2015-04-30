@@ -8,6 +8,7 @@ import play.libs.Json;
 import play.mvc.*;
 import models.Picture;
 import java.util.List;
+import java.util.UUID;
 
 public class Pictures extends Application {
     private static Result updatePicture(Picture picture) {
@@ -17,7 +18,7 @@ public class Pictures extends Application {
         if (json == null)
             return badRequest("Expecting JSON data");
         picture.updateFromJson(json).save();
-        result.put("id", picture.id);
+        result.put("id", picture.id.toString());
         return ok(result);
     }
 
@@ -33,9 +34,9 @@ public class Pictures extends Application {
 
     @Security.Authenticated(Private.class)
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result update(Long id) {
+    public static Result update(String id) {
       JsonNode json    = request().body().asJson();
-      Picture  picture = Picture.find.byId(id);
+      Picture  picture = Picture.find.byId(UUID.fromString(id));
 
       enableCors();
       if (picture.user_id != getCurrentUserId())
@@ -43,8 +44,8 @@ public class Pictures extends Application {
       return updatePicture(picture);
     }
 
-    public static Result indexForUser(Long user_id) {
-      PagingList<Picture> pictures = Picture.getPaginatedPicturesForUser(user_id, getItemsPerPage(30));
+    public static Result indexForUser(String user_id) {
+      PagingList<Picture> pictures = Picture.getPaginatedPicturesForUser(UUID.fromString(user_id), getItemsPerPage(30));
       ObjectNode result = views.Picture.render(pictures.getAsList());
 
       enableCors();
@@ -56,11 +57,11 @@ public class Pictures extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-        return indexForUser(getCurrentUserId());
+        return indexForUser(getCurrentUserId().toString());
     }
 
-    public static Result show(Long id) {
-        Picture picture = Picture.find.byId(id);
+    public static Result show(String id) {
+        Picture picture = Picture.find.byId(UUID.fromString(id));
 
         enableCors();
         return ok(views.Picture.render(picture));

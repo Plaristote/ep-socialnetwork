@@ -7,6 +7,7 @@ import models.Friendship;
 import play.libs.Json;
 import play.mvc.*;
 import java.util.List;
+import java.util.UUID;
 
 public class Friends extends Application {
     @Security.Authenticated(Private.class)
@@ -14,7 +15,7 @@ public class Friends extends Application {
     public static Result addFriend() {
       ObjectNode result     = Json.newObject();
       JsonNode   json       = request().body().asJson();
-      Long       friendId   = json.findValue("friend").asLong();
+      UUID       friendId   = UUID.fromString(json.findValue("friend").asText());
       Friendship friendship = Friendship.find.where()
                                              .eq("user_id",   getCurrentUserId())
                                              .eq("friend_id", friendId).findUnique();
@@ -29,26 +30,26 @@ public class Friends extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-        return indexForUser(getCurrentUserId());
+        return indexForUser(getCurrentUserId().toString());
     }
 
-    public static Result indexForUser(Long user_id) {
+    public static Result indexForUser(String user_id) {
         ObjectNode       result         = Json.newObject();
         ArrayNode        result_friends = result.putArray("friends");
-        List<Friendship> friendships    = Friendship.find.where().eq("user_id", user_id).findList();
+        List<Friendship> friendships    = Friendship.find.where().eq("user_id", UUID.fromString(user_id)).findList();
 
         enableCors();
         for (Friendship friendship : friendships)
-          result_friends.add(friendship.friend_id);
+          result_friends.add(friendship.friend_id.toString());
         return ok(result);
     }
 
     @Security.Authenticated(Private.class)
-    public static Result removeFriend(Long friendId) {
+    public static Result removeFriend(String friendId) {
         ObjectNode result  = Json.newObject();
 
         enableCors();
-        Friendship.removeFriendship(getCurrentUserId(), friendId);
+        Friendship.removeFriendship(getCurrentUserId(), UUID.fromString(friendId));
         result.put("message", "friend removed");
         return ok(result);
     }

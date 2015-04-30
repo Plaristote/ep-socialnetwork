@@ -10,6 +10,7 @@ import play.libs.Json;
 import play.mvc.*;
 
 import javax.persistence.PersistenceException;
+import java.util.UUID;
 
 public class Users extends Application {
     private static Result updateUser(User user) {
@@ -25,7 +26,7 @@ public class Users extends Application {
           return badRequest(result);
         } else {
           user.updateFromJson(json).save();
-          result.put("id", user.id);
+          result.put("id", user.id.toString());
         }
         return ok(result);
     }
@@ -48,8 +49,9 @@ public class Users extends Application {
         return updateUser(user);
     }
 
-    public static Result show(Long id) {
-        User       user   = User.find.byId(id);
+    public static Result show(String _id) {
+        UUID id   = UUID.fromString(_id);
+        User user = User.find.byId(id);
 
         return ok(views.User.render(user));
     }

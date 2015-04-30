@@ -8,6 +8,7 @@ import play.libs.Json;
 import models.Message;
 import play.mvc.*;
 import java.util.List;
+import java.util.UUID;
 
 public class Messages extends Application {
     @Security.Authenticated(Private.class)
@@ -19,7 +20,7 @@ public class Messages extends Application {
 
       enableCors();
       message.from_id = getCurrentUserId();
-      message.to_id   = json.findValue("to").asLong();
+      message.to_id   = UUID.fromString(json.findValue("to").asText());
       message.message = json.findValue("message").asText();
       message.at      = new java.util.Date();
       message.read    = false;
@@ -29,9 +30,9 @@ public class Messages extends Application {
 
     @Security.Authenticated(Private.class)
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result update(Long id) {
+    public static Result update(String id) {
       ObjectNode result  = Json.newObject();
-      Message    message = Message.find.byId(id);
+      Message    message = Message.find.byId(UUID.fromString(id));
       JsonNode   json    = request().body().asJson();
 
       enableCors();
@@ -42,7 +43,7 @@ public class Messages extends Application {
         message.read = json.findValue("read").asBoolean();
         message.save();
       }
-      result.put("id", message.id);
+      result.put("id", message.id.toString());
       result.put("read", message.read);
       return ok(result);
     }
@@ -61,8 +62,8 @@ public class Messages extends Application {
     }
 
     @Security.Authenticated(Private.class)
-    public static Result show(Long id) {
-      Message message = Message.find.byId(id);
+    public static Result show(String id) {
+      Message message = Message.find.byId(UUID.fromString(id));
 
       enableCors();
       if (message.from_id != getCurrentUserId() && message.to_id != getCurrentUserId())

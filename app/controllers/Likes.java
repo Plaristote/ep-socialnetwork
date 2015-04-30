@@ -7,24 +7,25 @@ import models.Like;
 import play.libs.Json;
 import play.mvc.*;
 import java.util.List;
+import java.util.UUID;
 
 public class Likes extends Application {
     @Security.Authenticated(Private.class)
-    public static Result create(Long postId) {
+    public static Result create(String postId) {
       ObjectNode result = Json.newObject();
 
       enableCors();
-      Like.addLike(getCurrentUserId(), postId);
+      Like.addLike(getCurrentUserId(), UUID.fromString(postId));
       result.put("message", "like added");
       return (ok(result));
     }
 
     @Security.Authenticated(Private.class)
-    public static Result destroy(Long postId) {
+    public static Result destroy(String postId) {
       ObjectNode result = Json.newObject();
 
       enableCors();
-      Like.removeLike(getCurrentUserId(), postId);
+      Like.removeLike(getCurrentUserId(), UUID.fromString(postId));
       result.put("message", "like deleted");
       return (ok(result));
     }

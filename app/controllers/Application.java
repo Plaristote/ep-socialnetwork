@@ -4,9 +4,11 @@ import models.User;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.util.UUID;
+
 public class Application extends PaginateComponent {
-  protected static Long getCurrentUserId() {
-    return Long.parseLong(ctx().session().get("user_id"));
+  protected static UUID getCurrentUserId() {
+    return UUID.fromString(ctx().session().get("user_id"));
   }
 
   protected static User getCurrentUser() {

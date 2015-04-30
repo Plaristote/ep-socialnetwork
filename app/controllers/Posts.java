@@ -8,6 +8,7 @@ import play.libs.Json;
 import models.Post;
 import play.mvc.*;
 import java.util.List;
+import java.util.UUID;
 
 public class Posts extends Application {
     @Security.Authenticated(Private.class)
@@ -18,9 +19,9 @@ public class Posts extends Application {
 
         enableCors();
         post.from_id      = getCurrentUserId();
-        post.to_id        = json.findValue("to").asLong();
+        post.to_id        = UUID.fromString(json.findValue("to").asText());
         if (json.has("picture_id"))
-          post.picture_id = json.findValue("picture_id").asLong();
+          post.picture_id = UUID.fromString(json.findValue("picture_id").asText());
         if (json.has("url"))
           post.url        = json.findValue("url").asText();
         post.description  = json.findValue("description").asText();
@@ -32,10 +33,10 @@ public class Posts extends Application {
 
     @Security.Authenticated(Private.class)
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result update(Long postId) {
+    public static Result update(String postId) {
         ObjectNode result  = Json.newObject();
         JsonNode   json    = request().body().asJson();
-        Post       post    = Post.find.byId(postId);
+        Post       post    = Post.find.byId(UUID.fromString(postId));
 
         enableCors();
         if (post.from_id != getCurrentUserId())
@@ -50,11 +51,11 @@ public class Posts extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result index() {
-        return indexForUser(getCurrentUserId());
+        return indexForUser(getCurrentUserId().toString());
     }
 
-    public static Result indexForUser(Long userId) {
-        PagingList<Post> posts  = Post.getPaginatedPostsForUser(userId,
+    public static Result indexForUser(String userId) {
+        PagingList<Post> posts  = Post.getPaginatedPostsForUser(UUID.fromString(userId),
                 getItemsPerPage(30));
         ObjectNode       result = views.Post.render(posts.getPage(getQueryPage()).getList());
 
@@ -65,8 +66,8 @@ public class Posts extends Application {
         return ok(result);
     }
 
-    public static Result show(Long postId) {
-        Post post = Post.find.byId(postId);
+    public static Result show(String postId) {
+        Post post = Post.find.byId(UUID.fromString(postId));
 
         enableCors();
         return ok(views.Post.renderWithDetails(post));

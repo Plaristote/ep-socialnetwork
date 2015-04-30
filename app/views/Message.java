@@ -9,9 +9,9 @@ public class Message {
     public static ObjectNode render(models.Message message) {
       ObjectNode result = Json.newObject();
 
-      result.put("id",      message.id);
-      result.put("from_id", message.from_id);
-      result.put("to_id",   message.to_id);
+      result.put("id",      message.id.toString());
+      result.put("from_id", message.from_id.toString());
+      result.put("to_id",   message.to_id.toString());
       result.put("message", message.message);
       result.put("at",      message.at.toString());
       result.put("read",    message.read);

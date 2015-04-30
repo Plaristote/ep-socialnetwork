@@ -12,7 +12,7 @@ class UsersController extends Controller
     users.fetch()
 
   show: (user_id) ->
-    user = new User id: parseInt(user_id)
+    user = new User id: user_id
     view = new UserView user
     view.render()
     user.fetch()

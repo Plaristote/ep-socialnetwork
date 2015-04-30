@@ -5,20 +5,20 @@ import play.data.validation.Constraints;
 import play.data.format.*;
 import play.db.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.security.MessageDigest;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="users")
 public class User extends Model {
-  public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class);
+  public static Finder<UUID,User> find = new Finder<UUID,User>(UUID.class, User.class);
 
   @Id
-  public Long   id;
+  @Column(columnDefinition="uuid")
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  public UUID   id;
 
   @Constraints.Required
   @Constraints.Email
@@ -26,33 +26,40 @@ public class User extends Model {
   public String email;
 
   @Constraints.Required
+  @Column(columnDefinition="text")
   public String first_name;
 
   @Constraints.Required
+  @Column(columnDefinition="text")
   public String last_name;
 
   @Constraints.Required
   public String password;
 
-  @Formats.DateTime(pattern="dd/MM/yyyy")
+  @Temporal(TemporalType.TIMESTAMP)
   public Date   signup_at;
 
   @Formats.DateTime(pattern="dd/MM/yyyy")
   public Date   birthday;
 
-  public Long   picture_id = new Long(0);
+  @Column(columnDefinition="uuid")
+  @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+  public UUID   picture_id;
 
+  @Column(columnDefinition="text")
   public String phone;
 
+  @Column(columnDefinition="text")
   public String location;
 
+  @Column(columnDefinition="text")
   public String about;
 
   // Relationships
   private Picture preloadedPicture = null;
 
   public boolean hasPicture() {
-    return picture_id != 0;
+    return picture_id != null;
   }
 
   public Picture getPicture() {
@@ -80,7 +87,7 @@ public class User extends Model {
     if (json.hasNonNull("last_name"))
       this.last_name  = json.findValue("last_name").asText();
     if (json.hasNonNull("picture_id"))
-      this.picture_id = json.findValue("picture_id").asLong();
+      this.picture_id = UUID.fromString(json.findValue("picture_id").asText());
     if (json.hasNonNull("phone"))
       this.phone      = json.findValue("phone").asText();
     if (json.hasNonNull("location"))

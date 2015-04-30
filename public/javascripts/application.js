@@ -18533,7 +18533,7 @@ window.JST["user_show"] = function (__obj) {
     UsersController.prototype.show = function(user_id) {
       var user, view;
       user = new User({
-        id: parseInt(user_id)
+        id: user_id
       });
       view = new UserView(user);
       view.render();

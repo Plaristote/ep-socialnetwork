@@ -6,43 +6,50 @@ import play.data.validation.Constraints;
 import play.data.format.*;
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="messages")
 public class Message extends Model {
-    public static Finder<Long,Message> find = new Finder<Long,Message>(Long.class, Message.class);
+    public static Finder<UUID,Message> find = new Finder<UUID,Message>(UUID.class, Message.class);
 
-    public static PagingList<Message> getPaginatedMessagesForUser(Long userId, int itemsPerPage) {
+    public static PagingList<Message> getPaginatedMessagesForUser(UUID userId, int itemsPerPage) {
         return find.where().or(
                 com.avaje.ebean.Expr.eq("from_id", userId),
-                com.avaje.ebean.Expr.eq("to_id",   userId)
-        ).findPagingList(itemsPerPage);
+                com.avaje.ebean.Expr.eq("to_id", userId)
+        ).order("at DESC").findPagingList(itemsPerPage);
     }
 
     @Id
-    public Long    id;
+    @Column(columnDefinition="uuid")
+    @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+    public UUID    id;
 
     @Constraints.Required
-    public Long    from_id;
+    @Column(columnDefinition="uuid")
+    @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+    public UUID    from_id;
 
     @Constraints.Required
-    public Long    to_id;
+    @Column(columnDefinition="uuid")
+    @org.hibernate.annotations.Type(type="org.hibernate.type.PostgresUUIDType")
+    public UUID    to_id;
 
     @Constraints.Required
+    @Temporal(TemporalType.TIMESTAMP)
     public Date    at;
 
     @Constraints.Required
+    @Column(columnDefinition="text")
     public String  message;
 
     public Boolean read;
 
     public Message updateFromJson(JsonNode json) {
         if (json.hasNonNull("to"))
-            this.to_id = json.findValue("to").asLong();
+            this.to_id = UUID.fromString(json.findValue("to").asText());
         if (json.hasNonNull("message"))
             this.message = json.findValue("message").asText();
         if (json.hasNonNull("read"))

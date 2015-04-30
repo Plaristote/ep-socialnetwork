@@ -16,9 +16,9 @@ public class Post {
     public static ObjectNode render(models.Post post) {
         ObjectNode result = Json.newObject();
 
-        result.put("id",           post.id);
-        result.put("from",         post.from_id);
-        result.put("to",           post.to_id);
+        result.put("id",           post.id.toString());
+        result.put("from",         post.from_id.toString());
+        result.put("to",           post.to_id.toString());
         result.put("description",  post.description);
         result.put("enable",       post.enable);
         result.put("highlight",    post.highlight);
@@ -26,7 +26,7 @@ public class Post {
         if (post.hasUrl())
           result.put("url",        post.url);
         if (post.hasPicture())
-          result.put("picture_id", post.picture_id);
+          result.put("picture_id", post.picture_id.toString());
         return result;
     }
 
