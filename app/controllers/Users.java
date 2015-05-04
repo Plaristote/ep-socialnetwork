@@ -53,6 +53,7 @@ public class Users extends Application {
         UUID id   = UUID.fromString(_id);
         User user = User.find.byId(id);
 
+        enableCors();
         return ok(views.User.render(user));
     }
 
@@ -60,6 +61,7 @@ public class Users extends Application {
       PagingList<User> users        = User.find.where().findPagingList(getItemsPerPage(30));
       ObjectNode       result       = views.User.render(users.getPage(getQueryPage()).getList());
 
+      enableCors();
       result.put("page", getQueryPage());
       if (mustDisplayTotalResources())
         result.put("page_count", users.getTotalPageCount());
@@ -68,7 +70,6 @@ public class Users extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result destroy() {
-      enableCors();
       getCurrentUser().delete();
       return controllers.Session.destroy();
     }

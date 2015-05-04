@@ -37,6 +37,7 @@ public class Session extends Application {
 
     @Security.Authenticated(Private.class)
     public static Result get() {
+      enableCors();
       return controllers.Users.show(getCurrentUserId().toString());
     }
 }

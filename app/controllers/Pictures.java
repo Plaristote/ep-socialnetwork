@@ -16,7 +16,7 @@ public class Pictures extends Application {
         ObjectNode result = Json.newObject();
 
         if (json == null)
-            return badRequest("Expecting JSON data");
+          return badRequest("Expecting JSON data");
         picture.updateFromJson(json).save();
         result.put("id", picture.id.toString());
         return ok(result);
