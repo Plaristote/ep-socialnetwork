@@ -1,4 +1,7 @@
-<div class='post' data-id='<%= @post.get 'id' %>' data-created-at='<%= @post.created_at().unix() %>'>
+<% _class  = 'post' %>
+<% _class += 'highlighted' if     @post.highlighted() %>
+<% _class += 'disabled'    unless @post.enabled()     %>
+<div class='<%= _class %>' data-id='<%= @post.get 'id' %>' data-created-at='<%= @post.created_at().unix() %>'>
   <div class='date'>
     <%= @post.created_at().format('HH:mm:ss dddd Do MMMM YYYY') %>
   </div>

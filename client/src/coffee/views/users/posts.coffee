@@ -14,7 +14,7 @@ class PostView extends View
 
   render: () ->
     @$el.html @template()
-    @$('.send').click => @send_post()
+    @$('.send').click      => @send_post()
     @$('.load-more').click => @load_more_posts()
     super
     @get_user().posts.fetch()
@@ -60,12 +60,30 @@ class PostView extends View
       continue if (post.get('to')) != @get_user().get('id')
       @insert_post post unless @has_post(post.get 'id')
 
+  on_post_enable: (event) ->
+    post = @get_post_from_event event
+    post.toggle_boolean_attribute 'enable',
+      success: -> console.log 'success enabling'
+      error:   -> console.log 'failure enabling'
+
+  on_post_highlight: (event) ->
+    post = @get_post_from_event event
+    post.toggle_boolean_attribute 'highlight',
+      success: -> console.log 'success highlighting'
+      error:   -> console.log 'failure highlighting'
+
+  get_post_from_event: (event) ->
+    $post   = $(event.currentTarget).closest('.post[data-id]')
+    post_id = $post.data 'id'
+    @collection.findWhere id: post_id
+
   insert_post: (post) ->
-    $el = $(@post_template post: post)
-    friend_box = new FriendBoxView $('.avatar', $el), post.get('from')
-    friend_box.render()
-    @$('#posts .list').append $el
-    @sort_posts()
+    if post.can_be_seen_by_current_user()
+      $el = $(@post_template post: post)
+      friend_box = new FriendBoxView $('.avatar', $el), post.get('from')
+      friend_box.render()
+      @$('#posts .list').append $el
+      @sort_posts()
 
   has_post: (id) ->
     @$("#posts .list .post[data-id='#{id}']").length != 0
