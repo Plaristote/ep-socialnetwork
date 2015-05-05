@@ -82,6 +82,10 @@ class PostView extends View
       $el = $(@post_template post: post)
       friend_box = new FriendBoxView $('.avatar', $el), post.get('from')
       friend_box.render()
+      $('.enable-button, .disable-button').click             (event) =>
+        @on_post_enable event
+      $('.highlight-button, .remove-highlight-button').click (event) =>
+        @on_post_highlight event
       @$('#posts .list').append $el
       @sort_posts()
 

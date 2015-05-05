@@ -18,4 +18,12 @@
     <% end %>
   </div>
 
+  <% if post.is_owned_by_current_user(): %>
+    <div class='controls'>
+      <button class='enable-button'>Enable</button>
+      <button class='disable-button'>Disable</button>
+      <button class='highlight-button'>Highlight</button>
+      <button class='remove-highlight-button'>Remove highlight</button>
+    </div>
+  <% end %>
 </div>
