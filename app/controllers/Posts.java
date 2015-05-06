@@ -39,7 +39,7 @@ public class Posts extends Application {
         Post       post    = Post.find.byId(UUID.fromString(postId));
 
         enableCors();
-        if (post.from_id != getCurrentUserId())
+        if (!post.to_id.toString().equals(getCurrentUserId().toString()))
           return forbidden();
         if (json.has("enable"))
           post.enable = json.findValue("enable").asBoolean();

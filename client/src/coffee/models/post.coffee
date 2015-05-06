@@ -17,13 +17,13 @@ class Post extends Backbone.Model
 
   enabled: () ->
     if @has 'enable'
-      @get('enable') != 0 and @get('enable') != false
+      @get 'enable'
     else
       true
 
   highlighted: () ->
     if @has 'highlight'
-      @get('highlight') != 0 and @get('highlight') != false
+      @get 'highlight'
     else
       false
 
@@ -39,6 +39,6 @@ class Post extends Backbone.Model
 
   toggle_boolean_attribute: (attr_name, options) ->
     attribute = post.get attr_name
-    attribute = if attribute == 0 then 1 else 0
+    attribute = if attribute == false then true else false
     post.set attr_name, attribute
     post.save {}, options

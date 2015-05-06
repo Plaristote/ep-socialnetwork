@@ -16869,7 +16869,27 @@ window.JST["post"] = function (__obj) {
   }
   (function() {
     (function() {
-      __out.push('<div class=\'post\' data-id=\'');
+      var _class;
+    
+      _class = 'post';
+    
+      __out.push('\n');
+    
+      if (this.post.highlighted()) {
+        _class += 'highlighted';
+      }
+    
+      __out.push('\n');
+    
+      if (!this.post.enabled()) {
+        _class += 'disabled';
+      }
+    
+      __out.push('\n<div class=\'');
+    
+      __out.push(__sanitize(_class));
+    
+      __out.push('\' data-id=\'');
     
       __out.push(__sanitize(this.post.get('id')));
     
@@ -16895,7 +16915,13 @@ window.JST["post"] = function (__obj) {
         __out.push('\n      </a>\n    ');
       }
     
-      __out.push('\n  </div>\n\n</div>\n');
+      __out.push('\n  </div>\n\n  ');
+    
+      if (post.is_owned_by_current_user()) {
+        __out.push('\n    <div class=\'controls\'>\n      <button class=\'enable-button\'>Enable</button>\n      <button class=\'disable-button\'>Disable</button>\n      <button class=\'highlight-button\'>Highlight</button>\n      <button class=\'remove-highlight-button\'>Remove highlight</button>\n    </div>\n  ');
+      }
+    
+      __out.push('\n</div>\n');
     
     }).call(this);
     
@@ -17419,6 +17445,44 @@ window.JST["user_show"] = function (__obj) {
       year = (date.match(/[0-9]{4}$/))[0];
       date = date.slice(0, 20) + " " + year;
       return moment(this.get('at'), 'ddd MMM DD HH:mm:ss YYYY');
+    };
+
+    Post.prototype.enabled = function() {
+      if (this.has('enable')) {
+        return this.get('enable');
+      } else {
+        return true;
+      }
+    };
+
+    Post.prototype.highlighted = function() {
+      if (this.has('highlight')) {
+        return this.get('highlight');
+      } else {
+        return false;
+      }
+    };
+
+    Post.prototype.can_be_seen_by_current_user = function() {
+      return this.enabled() || this.is_related_to_current_user();
+    };
+
+    Post.prototype.is_related_to_current_user = function() {
+      var current_user_id;
+      current_user_id = application.current_user.get('id');
+      return (this.get('from')) === current_user_id || (this.get('to')) === current_user_id;
+    };
+
+    Post.prototype.is_owned_by_current_user = function() {
+      return (this.get('to')) === application.current_user.get('id');
+    };
+
+    Post.prototype.toggle_boolean_attribute = function(attr_name, options) {
+      var attribute;
+      attribute = post.get(attr_name);
+      attribute = attribute === false ? true : false;
+      post.set(attr_name, attribute);
+      return post.save({}, options);
     };
 
     return Post;
@@ -18133,7 +18197,7 @@ window.JST["user_show"] = function (__obj) {
 
     PostView.prototype.initialize = function() {
       PostView.__super__.initialize.apply(this, arguments);
-      this.listenTo(this.get_user(), 'change:posts', this.on_posts_changed.bind(this));
+      this.listenTo(this.get_user().posts, 'add', this.on_posts_changed.bind(this));
       this.listenTo(application.current_user, 'change', this.on_current_user_changed.bind(this));
       return this.listenTo(this.get_user(), 'change', this.on_user_changed.bind(this));
     };
@@ -18181,12 +18245,8 @@ window.JST["user_show"] = function (__obj) {
       return post.save({}, {
         success: (function(_this) {
           return function() {
-            var posts;
             _this.clear_form();
-            posts = (_this.get_user().get('posts')) || [];
-            posts.push(post);
-            _this.get_user().set('posts', posts);
-            return _this.get_user().trigger('change:posts');
+            return _this.get_user().posts.add(post);
           };
         })(this)
       });
@@ -18216,7 +18276,7 @@ window.JST["user_show"] = function (__obj) {
 
     PostView.prototype.on_posts_changed = function() {
       var i, len, post, ref, results;
-      ref = this.get_user().get('posts');
+      ref = this.get_user().posts.models;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         post = ref[i];
@@ -18232,15 +18292,70 @@ window.JST["user_show"] = function (__obj) {
       return results;
     };
 
+    PostView.prototype.on_post_enable = function(event) {
+      var post;
+      post = this.get_post_from_event(event);
+      return post.toggle_boolean_attribute('enable', {
+        success: (function(_this) {
+          return function() {
+            var method;
+            method = post.enabled() ? 'removeClass' : 'addClass';
+            return _this.$(".post[data-id='" + (post.get('id')) + "']")[method]('disabled');
+          };
+        })(this),
+        error: function() {
+          return alert('Could not toggle post visibility');
+        }
+      });
+    };
+
+    PostView.prototype.on_post_highlight = function(event) {
+      var post;
+      post = this.get_post_from_event(event);
+      return post.toggle_boolean_attribute('highlight', {
+        success: (function(_this) {
+          return function() {
+            var method;
+            method = post.highlighted() ? 'addClass' : 'removeClass';
+            return _this.$(".post[data-id='" + (post.get('id')) + "']")[method]('highlighted');
+          };
+        })(this),
+        error: function() {
+          return alert('Could not toggle post highlighting');
+        }
+      });
+    };
+
+    PostView.prototype.get_post_from_event = function(event) {
+      var $post, post_id;
+      $post = $(event.currentTarget).closest('.post[data-id]');
+      post_id = $post.data('id');
+      return this.get_user().posts.findWhere({
+        id: post_id
+      });
+    };
+
     PostView.prototype.insert_post = function(post) {
       var $el, friend_box;
-      $el = $(this.post_template({
-        post: post
-      }));
-      friend_box = new FriendBoxView($('.avatar', $el), post.get('from'));
-      friend_box.render();
-      this.$('#posts .list').append($el);
-      return this.sort_posts();
+      if (post.can_be_seen_by_current_user()) {
+        $el = $(this.post_template({
+          post: post
+        }));
+        friend_box = new FriendBoxView($('.avatar', $el), post.get('from'));
+        friend_box.render();
+        this.$('#posts .list').append($el);
+        $('.enable-button, .disable-button', $el).click((function(_this) {
+          return function(event) {
+            return _this.on_post_enable(event);
+          };
+        })(this));
+        $('.highlight-button, .remove-highlight-button', $el).click((function(_this) {
+          return function(event) {
+            return _this.on_post_highlight(event);
+          };
+        })(this));
+        return this.sort_posts();
+      }
     };
 
     PostView.prototype.has_post = function(id) {

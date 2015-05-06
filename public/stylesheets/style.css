@@ -418,6 +418,22 @@ input {
       margin: 10px;
       margin-left: 70px;
       border: 1px black solid; }
+    #show-posts #posts .list .post button.enable-button {
+      display: none; }
+    #show-posts #posts .list .post button.remove-highlight-button {
+      display: none; }
+    #show-posts #posts .list .post.disabled {
+      background-color: lightblue; }
+      #show-posts #posts .list .post.disabled button.enable-button {
+        display: block; }
+      #show-posts #posts .list .post.disabled button.disable-button {
+        display: none; }
+    #show-posts #posts .list .post.highlighted {
+      background-color: gold; }
+      #show-posts #posts .list .post.highlighted button.highlight-button {
+        display: none; }
+      #show-posts #posts .list .post.highlighted button.remove-highlight-button {
+        display: block; }
 
 #user-index .user-item {
   padding: 5px; }

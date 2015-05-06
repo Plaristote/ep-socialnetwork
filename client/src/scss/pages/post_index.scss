@@ -42,6 +42,21 @@
         margin-left: 70px;
         border: 1px black solid;
       }
+      
+      button.enable-button           { display: none; }
+      button.remove-highlight-button { display: none; }
+
+      &.disabled {
+        background-color: lightblue;
+        button.enable-button  { display: block; }
+        button.disable-button { display: none;  }
+      }
+      
+      &.highlighted {
+        background-color: gold;
+        button.highlight-button        { display: none;  }
+        button.remove-highlight-button { display: block; }
+      }
     }
   }
 }
