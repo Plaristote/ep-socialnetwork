@@ -42,6 +42,10 @@
         margin-left: 70px;
         border: 1px black solid;
       }
+
+      .controls {
+        //display: none; // broken feature
+      }
       
       button.enable-button           { display: none; }
       button.remove-highlight-button { display: none; }
